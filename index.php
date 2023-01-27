@@ -1,14 +1,18 @@
  <?php 
-    require ('../../templates/header.php');
+    require ('templates/header.php');
+    require_once('lib/jeuxData.php');
+
+    $id = $_GET['name'];
+    var_dump($id);
   ?>
 
 
 
 <!-- ########### FIRST SECTION ###########-->
-
+<div class=" mx-auto px-32 pt-8 pb-8">
     <div id="carouselFrontPage mt-16">
         
-      <div class=" mx-auto px-32 pt-8 pb-8 bg-black/[.8] ">
+      
           
           <!-- FIRST SECTION -->
 
@@ -24,27 +28,27 @@
                      <!-- Item 1 -->
                     <div class="hidden duration-200 ease-linear" data-carousel-item>
                         <p class="relative text-slate-50 text-2xl dark:text-white z-30 text-center bg-gradient-to-r from-black">A Plague Tale Requiem : Élu jeu de l'année pour une baisse de morale !</p>
-                        <img src="../../img/FrontImgGame/A_Plague_Tale_Requiem.gif" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="img/FrontImgGame/<?= $jeux[$idimg]['image'] ?>" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 2 -->
                     <div class="hidden duration-200 ease-linear" data-carousel-item>
                         <p class="relative text-slate-50 text-2xl dark:text-white z-30 text-center bg-gradient-to-r from-black">A Plague Tale Requiem : Élu jeu de l'année pour une baisse de morale !</p>
-                        <img src="../../img/FrontImgGame/Horizon_Forbiden_West.gif" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="img/FrontImgGame/Horizon_Forbiden_West.gif" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 3 -->
                     <div class="hidden duration-200 ease-linear" data-carousel-item="active">
                         <p class="relative text-slate-50 text-2xl dark:text-white z-30 text-center bg-gradient-to-r from-black">A Plague Tale Requiem : Élu jeu de l'année pour une baisse de morale !</p>
-                        <img src="../../img/FrontImgGame/New_World.jpg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="img/FrontImgGame/New_World.jpg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 4 -->
                     <div class="hidden duration-200 ease-linear" data-carousel-item>
                         <p class="relative text-slate-50 text-2xl dark:text-white z-30 text-center bg-gradient-to-r from-black">A Plague Tale Requiem : Élu jeu de l'année pour une baisse de morale !</p>
-                        <img src="../../img/FrontImgGame/Star_Wars_Battlefront_II.webp" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="img/FrontImgGame/Star_Wars_Battlefront_II.webp" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                     <!-- Item 5 -->
                     <div class="hidden duration-200 ease-linear" data-carousel-item>
                         <p class="relative text-slate-50 text-2xl dark:text-white z-30 text-center bg-gradient-to-r from-black">A Plague Tale Requiem : Élu jeu de l'année pour une baisse de morale !</p>
-                        <img src="../../img/FrontImgGame/World_of_warcraft_DragonFlight.webp" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                        <img src="img/FrontImgGame/World_of_warcraft_DragonFlight.webp" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
                 </div>
                 <!-- Slider controls -->
@@ -104,8 +108,8 @@
 
 
 
-    <script src="../../js/carousel.js"></script>
+    <script src="js/carousel.js"></script>
 
 <!-- FOOTER -->
-<?php require ('../../templates/footer.php'); ?>
+<?php require ('templates/footer.php'); ?>
 

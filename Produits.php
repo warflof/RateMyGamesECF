@@ -1,9 +1,10 @@
 <?php
-require('../../templates/header.php');
+require('templates/header.php');
+require_once('lib/jeuxData.php');
 ?>  
     
 <!-- ########### FIRST SECTION ###########-->
-<div class="mx-auto w-full  pb-8 bg-black/[.8]">
+<div class="mx-auto w-full  pb-8">
 <div class="flex flex-row w-full" >
   
   <!-- SideBar -->
@@ -27,6 +28,7 @@ require('../../templates/header.php');
 
         <form id="filter-form">
           <input type="text" id="filter-input" placeholder="Filtrer les produits...">
+          
           <button class="bg-slate-50"type="submit">Filtrer</button>
           <button class="bg-slate-50"type="reset">Réinitialiser</button>
         </form>
@@ -80,7 +82,7 @@ require('../../templates/header.php');
     
       <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500" id="allGames">
     
-        <!-- ALL GAMES -->
+         <!-- ALL GAMES "../js/Produits.js"  -->
         
         </div> 
       </div> 
@@ -108,8 +110,11 @@ require('../../templates/header.php');
       
         <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500" id="allGames">
       
-          <!-- ALL GAMES -->
-          
+          <?php foreach ($jeux as $key => $jeu)
+           {
+              include('templates/jeu_partial.php');
+           }
+           ?>
           </div> 
         </div>
         
@@ -120,12 +125,12 @@ require('../../templates/header.php');
   </div>
 </div>
    
-<script src="../../js/Produits.js"></script>
+<script src="js/Produits.js"></script>
 
     
 <!-- FOOTER -->
 
 
 <?php
-require('../../templates/footer.php');
+require('templates/footer.php');
 ?>
