@@ -35,3 +35,12 @@ $jeux = [
                 'description' => "World of Warcraft: DragonFlight is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,", 
                 'image' => 'World_of_Warcraft_Dragonflight/World_of_warcraft_DragonFlight.webp' ],
 ];
+
+function getGamesByID(PDO $pdo, int $id) {
+
+$query = $pdo->prepare("SELECT * FROM jeu WHERE id = :id;");
+$query->bindParam(':id', $id);
+$query->execute();
+return $query->fetch();
+}
+
