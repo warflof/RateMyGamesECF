@@ -107,7 +107,7 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
                     <a href="Produits.php" class="py-2 px-4">Tous les jeux</a>
                   </div>
                   <div class="py-2">
-                    <a href="Jeu.php" class="py-2 px-4">Juste un jeux</a>
+                    <a href="Jeu.php?id=1" class="py-2 px-4">Juste un jeux</a>
                   </div>
                 </ul>
               </div>

@@ -1,6 +1,9 @@
 <?php
 require('templates/header.php');
 require_once('lib/jeuxData.php');
+
+
+
 ?>  
     
 <!-- ########### FIRST SECTION ###########-->
