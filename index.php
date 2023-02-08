@@ -2,7 +2,7 @@
   require('templates/header.php');
   require('lib/jeuxData.php');
 
- 
+ $jeux = getGames($pdo, _HOME_GAMES_LIMIT);
   
   ?>
 
@@ -68,14 +68,10 @@
      <div class="carousel px-16 pt-16 mb-8 mt-8">
 
        <figure>
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/EbuaKnSm8Zw/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/kG38b7CFzTY/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/nvzvOPQW0gc/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/2lYHiNtjSwg/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/CjS3QsRuxnE/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/xxeAftHHq6E/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/bjhrzvzZeq4/800x533" alt="">
-         <img class="imgCarouselFrontPage" src="https://source.unsplash.com/7mUXaBBrhoA/800x533" alt="">
+       <?php foreach ($jeux as $key => $jeu) {
+                include('templates/CarouselAccueil.php');
+              }
+            ?>   
        </figure>
 
        <nav>

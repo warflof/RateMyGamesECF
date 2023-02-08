@@ -1,5 +1,6 @@
 <?php
 require_once('lib/config.php');
+require_once('lib/pdo.php');
 
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
 
@@ -108,6 +109,9 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
                   </div>
                   <div class="py-2">
                     <a href="Jeu.php?id=1" class="py-2 px-4">Juste un jeux</a>
+                  </div>
+                  <div class="py-2">
+                    <a href="ajout_modification_jeu.php" class="py-2 px-4">Ajout / Modif Jeu</a>
                   </div>
                 </ul>
               </div>

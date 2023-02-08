@@ -3,6 +3,7 @@ require('templates/header.php');
 require_once('lib/jeuxData.php');
 
 
+$jeux = getGames($pdo);
 
 ?>  
     
