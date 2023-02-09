@@ -7,6 +7,8 @@ $query->execute();
 return $query->fetch();
 }
 
+// Récupération de view
+
 function addGameStatut(PDO $pdo, array $jeux) {
     $receiveStatut = $pdo->prepare("SELECT * FROM jeu_jouable_vw WHERE Titre = :Titre;");
 $receiveStatut->bindParam(':Titre', $jeux['Titre']);
@@ -42,6 +44,8 @@ function addGameMoteur(PDO $pdo, array $jeux) {
     return $receiveGameMoteur->fetchAll();
 }
 
+// Récupère la table jeu dans l'ordre décroissant
+
 function getGames(PDO $pdo, int $limit = NULL) {
     $sql = 'SELECT * FROM jeu ORDER BY id DESC';
 
@@ -59,11 +63,15 @@ function getGames(PDO $pdo, int $limit = NULL) {
     return $query->fetchAll();
 }
 
+// Récupère la table statut
+
 function getGameStatut(PDO $pdo) {
     $statut = $pdo->prepare("SELECT * FROM statut");
     $statut->execute();
     return $statut->fetchAll(PDO::FETCH_ASSOC);
 }
+
+// Récupère la table moteur
 
 function getGameMoteur(PDO $pdo) {
     $moteur = $pdo->prepare("SELECT * FROM moteur");
@@ -71,11 +79,15 @@ function getGameMoteur(PDO $pdo) {
     return $moteur->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Récupère la table nombre_joueur
+
 function getGameNombreJoueur(PDO $pdo) {
-    $nombreJoueur = $pdo->prepare("SELECT * FROM nombre_joueur");
+    $nombreJoueur = $pdo->prepare("SELECT id_nombre_joueur, nom_nombre_joueur FROM nombre_joueur");
     $nombreJoueur->execute();
     return $nombreJoueur->fetchAll(PDO::FETCH_ASSOC);
 }
+
+// Récupère la table support
 
 function getGameSupport(PDO $pdo) {
     $support = $pdo->prepare("SELECT id_support, nom_support FROM support");
@@ -83,43 +95,61 @@ function getGameSupport(PDO $pdo) {
     return $support->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Récupère la table style
+
+function getGameStyle(PDO $pdo) {
+    $style = $pdo->prepare("SELECT id, style FROM style");
+    $style->execute();
+    return $style->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Affiche l'image par défaut si aucune image n'est sélectionnée
+
 function getGameImg(string|null $image) {
     if($image === null){
         return _ASSETS_IMG_PATH.'default.jpg';
     } else {
         return _JEUX_IMG_PATH.$image;        
     }
-}
+};
 
     // INSERT TABLE jeu
-
-function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $statut, int $moteur, string $dateEstimeeFin, int $budget) {
-    $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, Image, jouable, id_moteur, date_estimee_fin, budget) VALUES (NULL, :Titre, :Description, :Image, :jouable, :id_moteur, :date_estimee_fin, :budget);" );
+function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur,int $nombre_joueur, string $dateEstimeeFin, int $budget) {
+    global $insertStyle;
+    $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, Image, jouable, id_moteur, date_estimee_fin, budget) 
+    VALUES (NULL, :Titre, :Description, :Image, :jouable, :id_moteur, :date_estimee_fin, :budget);
+    INSERT INTO jeu_nombre_joueur (jeu_id, nombre_joueur_id) VALUES (LAST_INSERT_ID(), :id_nombre_joueur);
+    INSERT INTO jeu_support (jeu_id, support_id) VALUES (LAST_INSERT_ID(), :support);
+    INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);
+    $insertStyle
+    ");
     $query->bindParam(':Titre', $Titre, PDO::PARAM_STR);
     $query->bindParam(':Description', $Description, PDO::PARAM_STR);
     $query->bindParam(':Image', $Image, PDO::PARAM_STR);
+    $query->bindParam(':style', $style, PDO::PARAM_INT);
+    $query->bindParam(':support', $support, PDO::PARAM_INT);
     $query->bindParam(':jouable', $statut, PDO::PARAM_INT);
     $query->bindParam(':id_moteur', $moteur, PDO::PARAM_INT);
+    $query->bindParam(':id_nombre_joueur', $nombre_joueur, PDO::PARAM_INT);
     $query->bindParam(':date_estimee_fin', $dateEstimeeFin, PDO::PARAM_STR);
     $query->bindParam(':budget', $budget, PDO::PARAM_INT);
-    $jeu_id = $pdo->lastInsertId();
-    return $query->execute();
-    return $jeu_id;
-}
-    // INSERT TABLE jeu_support
-
-function saveTableJeu_Style(PDO $pdo, int $jeu_id, int $style_id) {
-    $query = $pdo->prepare("INSERT INTO jeu_style (jeu_id, style_id) VALUES (:jeu_id, :style_id);" );
-    $query->bindParam(':jeu_id', $jeu_id, PDO::PARAM_INT);
-    $query->bindParam(':style_id', $style_id, PDO::PARAM_INT);
     return $query->execute();
 };
 
-    // INSERT TABLE jeu_support
 
-function saveTableJeu_Support(PDO $pdo, int $jeu_id, int $support_id) {
-    $query = $pdo->prepare("INSERT INTO jeu_support (jeu_id, support_id) VALUES (:jeu_id, :support_id);" );
-    $query->bindParam(':jeu_id', $jeu_id, PDO::PARAM_INT);
-    $query->bindParam(':support_id', $support_id, PDO::PARAM_INT);
-    return $query->execute();
-};
+
+/*
+
+On souhaite ajouter des styles supplémentaire à un jeu.
+
+il faut pouvoir ajouter un champ de type select multiple pour pouvoir ajouter plusieurs styles à un jeu.
+Une fois cela fait, il faut boucler sur les styles sélectionnés pour les ajouter à la table jeu_style.
+
+Si Aventure et Action sont sélectionnés,
+    il faut ajouter les lignes suivantes dans la table jeu_style :
+        - jeu_id = LAST_INSERT_ID(), style_id = 1 -> INSERT INTO jeu_style (jeu_id, style_id) VALUES (1, 1);
+        - jeu_id = LAST_INSERT_ID(), style_id = 2  -> INSERT INTO jeu_style (jeu_id, style_id) VALUES (1, 2);
+        
+
+
+*/
