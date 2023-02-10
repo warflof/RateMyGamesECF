@@ -113,6 +113,8 @@ function getGameImg(string|null $image) {
     }
 };
 
+$insertStyle = "INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);";
+
     // INSERT TABLE jeu
 function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur,int $nombre_joueur, string $dateEstimeeFin, int $budget) {
     global $insertStyle;
@@ -123,17 +125,27 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);
     $insertStyle
     ");
-    $query->bindParam(':Titre', $Titre, PDO::PARAM_STR);
-    $query->bindParam(':Description', $Description, PDO::PARAM_STR);
-    $query->bindParam(':Image', $Image, PDO::PARAM_STR);
-    $query->bindParam(':style', $style, PDO::PARAM_INT);
-    $query->bindParam(':support', $support, PDO::PARAM_INT);
-    $query->bindParam(':jouable', $statut, PDO::PARAM_INT);
-    $query->bindParam(':id_moteur', $moteur, PDO::PARAM_INT);
-    $query->bindParam(':id_nombre_joueur', $nombre_joueur, PDO::PARAM_INT);
-    $query->bindParam(':date_estimee_fin', $dateEstimeeFin, PDO::PARAM_STR);
-    $query->bindParam(':budget', $budget, PDO::PARAM_INT);
-    return $query->execute();
+    if (empty($Titre) || empty($Description) || empty($style) || empty($support) || empty($statut) || empty($moteur) || empty($nombre_joueur) || empty($dateEstimeeFin) || empty($budget))  {
+        ?>
+        <script>
+            Javascript:alert('Merci de remplir tous les champs !')
+            document.location.replace("ajout_modification_jeu.php");
+        </script>
+        <?php
+    } else {
+        $query->bindParam(':Titre', $Titre, PDO::PARAM_STR);
+        $query->bindParam(':Description', $Description, PDO::PARAM_STR);
+        $query->bindParam(':Image', $Image, PDO::PARAM_STR);
+        $query->bindParam(':style', $style, PDO::PARAM_INT);
+        $query->bindParam(':support', $support, PDO::PARAM_INT);
+        $query->bindParam(':jouable', $statut, PDO::PARAM_INT);
+        $query->bindParam(':id_moteur', $moteur, PDO::PARAM_INT);
+        $query->bindParam(':id_nombre_joueur', $nombre_joueur, PDO::PARAM_INT);
+        $query->bindParam(':date_estimee_fin', $dateEstimeeFin, PDO::PARAM_STR);
+        $query->bindParam(':budget', $budget, PDO::PARAM_INT);
+        return $query->execute();
+    }
+    
 };
 
 
