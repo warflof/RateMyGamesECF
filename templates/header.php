@@ -117,6 +117,13 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
               </div>
             </p>
           </li>
+
+          <li class="<?php if($currentPage === 'modifJeu.php') {echo 'bg-lime-500 py-1 px-2 mx-2 rounded';} ?>">
+            <a href="modifJeu.php" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+              Ajouter / Modifier un jeu
+            </a>
+          </li>
+
         </ul>
       </div>
     </div>

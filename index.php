@@ -69,7 +69,7 @@
 
        <figure>
        <?php foreach ($jeux as $key => $jeu) {
-                include('templates/CarouselAccueil.php');
+                include('templates/recupCarouselAccueil.php');
               }
             ?>   
        </figure>

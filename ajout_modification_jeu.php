@@ -5,8 +5,6 @@ require_once('lib/tools.php');
 
 
 
-
-
 if (isset($_POST['saveGame'])) {
 
 
@@ -44,12 +42,15 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
     var_dump($res);
 
 
-
+    $error;
     if ($res) {
+        $error = false;
         echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le jeu a bien été ajouté</div></div>';
     } else {
+        $error = true;
         echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le jeu n\'a pas été ajouté</div></div>';
     }
+
 }
 
 
