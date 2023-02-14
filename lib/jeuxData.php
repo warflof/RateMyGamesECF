@@ -7,6 +7,12 @@ $query->execute();
 return $query->fetch();
 }
 
+function getGamesByTitle(PDO $pdo) {
+    $query = $pdo->prepare("SELECT Titre FROM jeu;");
+    $query->execute();
+    return $query->fetchAll();
+    }
+
 // Récupération de view
 
 function addGameStatut(PDO $pdo, array $jeux) {
@@ -114,7 +120,6 @@ function getGameImg(string|null $image) {
 };
 
 $insertStyle = "INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);";
-$insertImage = "INSERT INTO jeu_image (jeu_id, nom) VALUES (LAST_INSERT_ID(), :image);";
     // INSERT TABLE jeu
 function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur,int $nombre_joueur, string $dateEstimeeFin, int $budget) {
     global $insertStyle;
