@@ -114,15 +114,16 @@ function getGameImg(string|null $image) {
 };
 
 $insertStyle = "INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);";
-
+$insertImage = "INSERT INTO jeu_image (jeu_id, nom) VALUES (LAST_INSERT_ID(), :image);";
     // INSERT TABLE jeu
 function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur,int $nombre_joueur, string $dateEstimeeFin, int $budget) {
     global $insertStyle;
-    $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, Image, jouable, id_moteur, date_estimee_fin, budget) 
-    VALUES (NULL, :Titre, :Description, :Image, :jouable, :id_moteur, :date_estimee_fin, :budget);
+    $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, image, jouable, id_moteur, date_estimee_fin, budget) 
+    VALUES (NULL, :Titre, :Description, :image, :jouable, :id_moteur, :date_estimee_fin, :budget);
+    INSERT INTO image (jeu_id, nom) VALUES (LAST_INSERT_ID(), :image);
     INSERT INTO jeu_nombre_joueur (jeu_id, nombre_joueur_id) VALUES (LAST_INSERT_ID(), :id_nombre_joueur);
     INSERT INTO jeu_support (jeu_id, support_id) VALUES (LAST_INSERT_ID(), :support);
-    INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);
+    INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style); 
     $insertStyle
     ");
     if (empty($Titre) || empty($Description) || empty($style) || empty($support) || empty($statut) || empty($moteur) || empty($nombre_joueur) || empty($dateEstimeeFin) || empty($budget))  {
@@ -135,7 +136,7 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     } else {
         $query->bindParam(':Titre', $Titre, PDO::PARAM_STR);
         $query->bindParam(':Description', $Description, PDO::PARAM_STR);
-        $query->bindParam(':Image', $Image, PDO::PARAM_STR);
+        $query->bindParam(':image', $Image, PDO::PARAM_STR);
         $query->bindParam(':style', $style, PDO::PARAM_INT);
         $query->bindParam(':support', $support, PDO::PARAM_INT);
         $query->bindParam(':jouable', $statut, PDO::PARAM_INT);

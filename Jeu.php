@@ -37,7 +37,7 @@ $moteur = addGameMoteur($pdo, $jeux);
 
                 </div>
             </div>
-                <!-- Début Image Galery -->
+                <!-- Début image Galery -->
 
                 <section class="overflow-hidden text-gray-700">
                     <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
@@ -45,36 +45,36 @@ $moteur = addGameMoteur($pdo, $jeux);
                             <div class="flex flex-wrap w-1/2">
                                 <div class="w-1/2 p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" 
-                                    src="<?=getGameImg($jeux['Image']); ?>">
+                                    src="<?=getGameImg($jeux['image']); ?>">
                                 </div>
                                 <div class="w-1/2 p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" 
-                                    src="<?=getGameImg($jeux['Image']); ?>"> <!-- Remplacer 'image' par 'Image2' -->
+                                    src="<?=getGameImg($jeux['image']); ?>"> <!-- Remplacer 'image' par 'image2' -->
                                 </div>
                                 <div class="w-full p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" 
-                                    src="<?=getGameImg($jeux['Image']); ?>"><!-- Remplacer 'image' par 'Image3' -->
+                                    src="<?=getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image3' -->
                                 </div>
                             </div>
                             <div class="flex flex-wrap w-1/2">
                                 <div class="w-full p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" 
-                                    src="<?=getGameImg($jeux['Image']); ?>"><!-- Remplacer 'image' par 'Image4' -->
+                                    src="<?=getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image4' -->
                                 </div>
                                 <div class="w-1/2 p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" 
-                                    src="<?=getGameImg($jeux['Image']); ?>"><!-- Remplacer 'image' par 'Image5' -->
+                                    src="<?=getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image5' -->
                                 </div>
                                 <div class="w-1/2 p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" 
-                                    src="<?=getGameImg($jeux['Image']);?>"><!-- Remplacer 'image' par 'Image5' -->
+                                    src="<?=getGameImg($jeux['image']);?>"><!-- Remplacer 'image' par 'image5' -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Fin Image Galery -->
+                <!-- Fin image Galery -->
 
 
 
@@ -85,7 +85,7 @@ $moteur = addGameMoteur($pdo, $jeux);
             <!-- Partie Droite -->
 
             <div class="w-full max-w-lg mx-auto mt-5 md:ml-auto md:mt-0 md:w-1/2 lg:py-12" style="height: 790px;">                    
-                <img class="h-full w-full content-center rounded-md object-cover max-w-lg mx-auto object-cover" src="<?=getGameImg($jeux['Image']); ?>" alt="<?= $jeux['Titre']?>">
+                <img class="h-full w-full content-center rounded-md object-cover max-w-lg mx-auto object-cover" src="<?=getGameImg($jeux['image']); ?>" alt="<?= $jeux['Titre']?>">
             </div>
         </div>
 
@@ -110,9 +110,16 @@ $moteur = addGameMoteur($pdo, $jeux);
     <div class="basis-1/6 py-4 px-2 border-r border-lime-500  ">
         <div class="text-slate-50">
             <div class="py-2.5">
-                        <?php foreach ($supports as $support) {
-                            echo '<kbd class="mx-0.5 px-2 py-1.5 text-xl font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg shrink">' . $support['nom_support'] . '</kbd>';
+                        <?php 
+                        if(empty($supports)) {
+                            echo '<kbd class="px-2 py-1.5 text-xl font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">Aucun</kbd>';
+                        } else {
+                            foreach ($supports as $support) {
+                                echo '<kbd class="mx-0.5 px-2 py-1.5 text-xl font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">' . $support['nom_support'] . '</kbd>';
+                            }
                         } ?>
+                        
+                    
             </div>
             <div class="py-2.5">
                         <?php 
@@ -130,13 +137,13 @@ $moteur = addGameMoteur($pdo, $jeux);
                     <!-- Boucler pour afficher les nombres de joueurs -->
                     
                     <?php 
-                        // if(empty($jeux['nombre_joueur_id'])) {
-                        //     echo '<kbd class="px-2 py-1.5 text-base font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">Non-Référencé</kbd>';
-                        // } else {
-                        //     foreach ($nbJoueurs as $nbJoueur) {
-                        //         echo '<kbd class="mx-0.5 px-2 py-1.5 text-sm font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">' . $nbJoueur['nom'] . '</kbd>';
-                        //     } 
-                        // } ?>
+                        if(empty($jeux['nombre_joueur_id'])) {
+                            echo '<kbd class="px-2 py-1.5 text-base font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">Non-Référencé</kbd>';
+                        } else {
+                            foreach ($nbJoueurs as $nbJoueur) {
+                                echo '<kbd class="mx-0.5 px-2 py-1.5 text-sm font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">' . $nbJoueur['nom'] . '</kbd>';
+                            } 
+                        } ?>
                     
                     
                     

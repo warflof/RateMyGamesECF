@@ -1,34 +1,36 @@
 <?php
 require('templates/header.php');
 require_once('lib/jeuxData.php');
+require_once('lib/tools.php');
 
 
-if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
-    $image = $_FILES['image']['name'];
-    $imagePath = _JEUX_IMG_PATH . $image;
-    $isUploadSuccess = true;
 
-    if ($_FILES['image']['size'] > 1000000) {
-        $isUploadSuccess = false;
-        echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier est trop volumineux</div></div>';
-    }
-
-    if ($isUploadSuccess) {
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
-            $isUploadSuccess = false;
-            echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Il y a eu une erreur lors de l\'upload</div></div>';
-        }
-    }
-}
 
 
 if (isset($_POST['saveGame'])) {
+
+
+if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+    $fileName = NULL;
+    // la méthode getimagesize va retourner false si le fichier n'est pas une image
+    $checkImage = getimagesize($_FILES['image']['tmp_name']);
+    if ($checkImage !== false) {
+        // on génère un nom unique et standardisé pour l'image
+        $fileName = uniqid(). '-' . slugify($_FILES['image']['name']);
+
+        move_uploaded_file($_FILES['image']['tmp_name'], _JEUX_IMG_PATH . $fileName);
+
+    } else {
+        echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
+    }
+}
+
 
     $res = saveTableGames(
         $pdo,
         $_POST['Titre'],
         $_POST['Description'],
-        NULL,
+        $fileName,
         $_POST['style'],
         $_POST['id_support'],
         $_POST['Statut'],
@@ -46,7 +48,7 @@ if (isset($_POST['saveGame'])) {
     if ($res) {
         echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le jeu a bien été ajouté</div></div>';
     } else {
-        echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le jeu a bien été ajouté</div></div>';
+        echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le jeu n\'a pas été ajouté</div></div>';
     }
 }
 
@@ -95,7 +97,7 @@ if (isset($_POST['saveGame'])) {
         <div class="py-3 px-8 mx-8">
             <label for="style"><span class="text-slate-50">Style: </span></label>
             <select class="w-full rounded" type="input" name="style" id="style">
-            
+            <option value="0"> -- Choisissez un style --</option>
                 <?php
                 $styles = getGameStyle($pdo);
                 foreach ($styles as $style) {
@@ -115,6 +117,8 @@ if (isset($_POST['saveGame'])) {
         <div class="py-3 px-8 mx-8">
             <label for="id_support"><span class="text-slate-50">support: </span></label>
             <select class="w-full rounded" type="input" name="id_support" id="id_support">
+            <option value="0"> -- Choisissez un support --</option>
+
                 <?php
                 $supports = getGameSupport($pdo);
                 foreach ($supports as $support) {
@@ -135,6 +139,8 @@ if (isset($_POST['saveGame'])) {
         <div class="py-3 px-8 mx-8">
             <label for="Statut"><span class="text-slate-50">Statut: </span></label>
             <select class="w-full rounded" type="Statut" name="Statut" id="Statut">
+            <option value="0"> -- Choisissez un statut --</option>
+
                 <?php
                 $statuts = getGameStatut($pdo);
                 foreach ($statuts as $statut) {
@@ -156,6 +162,8 @@ if (isset($_POST['saveGame'])) {
         <div class="py-3 px-8 mx-8">
             <label for="moteur"><span class="text-slate-50">Moteur de développement: </span></label>
             <select class="w-full rounded" type="moteur" name="moteur" id="moteur">
+            <option value="0"> -- Choisissez un moteur --</option>
+
                 <?php
                 $moteurs = getGameMoteur($pdo);
                 foreach ($moteurs as $moteur) {
@@ -175,6 +183,8 @@ if (isset($_POST['saveGame'])) {
         <div class="py-3 px-8 mx-8">
             <label for="nombre_joueurs"><span class="text-slate-50">Nombre de joueur(s): </span></label>
             <select class="w-full rounded" type="moteur" name="nombre_joueurs" id="nombre_joueurs">
+            <option value="0"> -- Choisissez un nombre de joueurs --</option>
+
                 <?php
                 $nombre_joueurs = getGameNombreJoueur($pdo);
                 foreach ($nombre_joueurs as $nombre_joueur) {
