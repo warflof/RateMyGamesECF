@@ -9,7 +9,7 @@ $jeux = getGamesByID($pdo, $id);
 $statut = addGameStatut($pdo, $jeux);
 $supports = addGameSupport($pdo, $jeux);
 $styles = addGameStyle($pdo, $jeux);
-//$nbJoueurs = addGameNbJoueur($pdo, $jeux);
+$nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteur = addGameMoteur($pdo, $jeux);
 
 

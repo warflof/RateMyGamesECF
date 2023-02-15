@@ -39,7 +39,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
     );
 
 
-    var_dump($res);
+    var_dump($_POST);
 
 
     $error;
@@ -86,13 +86,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
             ?>
         </div>
 
-        <!-- Image -->
-
-        <div class="py-3 px-8 mx-8">
-            <label for="Image"><span class="text-slate-50">Image: </span></label>
-            <input type="file" name="image" id="Image">
-        </div>
-
+       
         <!-- Style -->
 
         <div class="py-3 px-8 mx-8">
@@ -220,13 +214,25 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
                 ?>
             </div>
         </div>
+        
+         <!-- Image -->
 
-
-        <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 mx-16 rounded" name="saveGame">
-
+         <div class="py-3 px-8 mx-8">
+            <label for="Image"><span class="text-slate-50">Image <span id="nbImage">1</span>: </span></label>
+            <input type="file" name="image" id="Image" class="text-slate-50">
+       
+        </div>
+        <hr class="my-8">
+       <div class="mx-auto text-center">
+        <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="saveGame">
+       </div>
+        
     </form>
 
+
 </div>
+
+
 
 <?php
 require('templates/footer.php');

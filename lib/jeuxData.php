@@ -37,7 +37,7 @@ function addGameStyle(PDO $pdo, array $jeux) {
 }
 
 function addGameNbJoueur(PDO $pdo, array $jeux) {
-    $receiveNbJoueur = $pdo->prepare("SELECT * FROM jeu_nombre_joueur_vw WHERE Titre = :Titre;");
+    $receiveNbJoueur = $pdo->prepare("SELECT * FROM jeu_nombre_joueur WHERE Titre = :Titre;");
     $receiveNbJoueur->bindParam(':Titre', $jeux['Titre']);
     $receiveNbJoueur->execute();
     return $receiveNbJoueur->fetchAll();
@@ -125,11 +125,11 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     global $insertStyle;
     $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, image, jouable, id_moteur, date_estimee_fin, budget) 
     VALUES (NULL, :Titre, :Description, :image, :jouable, :id_moteur, :date_estimee_fin, :budget);
-    INSERT INTO image (jeu_id, nom) VALUES (LAST_INSERT_ID(), :image);
     INSERT INTO jeu_nombre_joueur (jeu_id, nombre_joueur_id) VALUES (LAST_INSERT_ID(), :id_nombre_joueur);
     INSERT INTO jeu_support (jeu_id, support_id) VALUES (LAST_INSERT_ID(), :support);
     INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style); 
-    $insertStyle
+    INSERT INTO image (jeu_id, nom_image) VALUES (LAST_INSERT_ID(), :image);
+    INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);
     ");
     if (empty($Titre) || empty($Description) || empty($style) || empty($support) || empty($statut) || empty($moteur) || empty($nombre_joueur) || empty($dateEstimeeFin) || empty($budget))  {
         ?>
