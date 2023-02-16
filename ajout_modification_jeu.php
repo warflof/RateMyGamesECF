@@ -1,7 +1,17 @@
 <?php
-require('templates/header.php');
+require_once('lib/session.php');
+if(!isset($_SESSION['user'])) {
+    header('Location: login.php');
+} 
+require_once('templates/header.php');
+
+
+
 require_once('lib/jeuxData.php');
 require_once('lib/tools.php');
+
+
+
 
 
 
@@ -52,7 +62,6 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
     }
 
 }
-
 
 ?>
 

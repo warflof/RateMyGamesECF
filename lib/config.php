@@ -1,4 +1,3 @@
-
 <?php
 
 define("_JEUX_IMG_PATH", "uploads-games/FrontImgGame/");

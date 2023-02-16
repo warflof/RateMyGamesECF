@@ -37,7 +37,7 @@ function addGameStyle(PDO $pdo, array $jeux) {
 }
 
 function addGameNbJoueur(PDO $pdo, array $jeux) {
-    $receiveNbJoueur = $pdo->prepare("SELECT * FROM jeu_nombre_joueur WHERE Titre = :Titre;");
+    $receiveNbJoueur = $pdo->prepare("SELECT * FROM jeu_nombre_joueur_vw WHERE Titre = :Titre;");
     $receiveNbJoueur->bindParam(':Titre', $jeux['Titre']);
     $receiveNbJoueur->execute();
     return $receiveNbJoueur->fetchAll();
@@ -154,6 +154,12 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     
 };
 
+function dropGame(PDO $pdo, int $id) {
+    $query = $pdo->prepare("DELETE FROM jeu WHERE id = :id");
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    return $query->execute();
+};
+
 
 
 /*
@@ -171,3 +177,4 @@ Si Aventure et Action sont sélectionnés,
 
 
 */
+
