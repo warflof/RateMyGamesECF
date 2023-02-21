@@ -28,7 +28,7 @@ $jeux = getGames($pdo)
                     <td class="mx-8 px-auto py-4 border-2 border-slate-50">
 
                         <!-- Modal toggle -->
-                        <a href="" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
+                        <a href="Modification_jeu.php?id=<?= $jeu['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
                             Modifier
                         </a>
 

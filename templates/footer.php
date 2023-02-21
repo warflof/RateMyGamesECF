@@ -4,13 +4,13 @@
           <h2 class="mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">GameSoft</h2>
           <ul class="text-gray-500 dark:text-gray-400">
               <li class="mb-4">
-                  <a href="#" class=" hover:underline">A propos</a>
+                  <a href="#" class=" hover:underline">Actualités</a>
               </li>
               <li class="mb-4">
-                  <a href="#" class="hover:underline">Nos jeux</a>
+                  <a href="Produits.php" class="hover:underline">Nos jeux</a>
               </li>
               <li class="mb-4">
-                  <a href="#" class="hover:underline">Connexion</a>
+                  <a href="login.php" class="hover:underline">Connexion</a>
               </li>
           </ul>
       </div>

@@ -105,7 +105,7 @@ var_dump($nbJoueurs);
         <div class="text-slate-50">
             <div class="py-2.5">
                 <?php
-                if (empty($supports)) {
+                if (!isset($supports)) {
                     echo '<kbd class="px-2 py-1.5 text-xl font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">Aucun</kbd>';
                 } else {
                     foreach ($supports as $support) {
@@ -117,7 +117,7 @@ var_dump($nbJoueurs);
             </div>
             <div class="py-2.5">
                 <?php
-                if (empty($styles)) {
+                if (!isset($styles)) {
                     echo '<kbd class="px-2 py-1.5 text-xl font-bold text-slate-50 bg-lime-500 border border-gray-200 rounded-lg">Aucun</kbd>';
                 } else {
                     foreach ($styles as $style) {

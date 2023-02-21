@@ -1,8 +1,8 @@
 <?php
 require_once('lib/session.php');
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
     header('Location: login.php');
-} 
+}
 require_once('templates/header.php');
 
 
@@ -18,20 +18,19 @@ require_once('lib/tools.php');
 if (isset($_POST['saveGame'])) {
 
 
-if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
-    $fileName = NULL;
-    // la méthode getimagesize va retourner false si le fichier n'est pas une image
-    $checkImage = getimagesize($_FILES['image']['tmp_name']);
-    if ($checkImage !== false) {
-        // on génère un nom unique et standardisé pour l'image
-        $fileName = uniqid(). '-' . slugify($_FILES['image']['name']);
+    if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+        $fileName = NULL;
+        // la méthode getimagesize va retourner false si le fichier n'est pas une image
+        $checkImage = getimagesize($_FILES['image']['tmp_name']);
+        if ($checkImage !== false) {
+            // on génère un nom unique et standardisé pour l'image
+            $fileName = uniqid() . '-' . slugify($_FILES['image']['name']);
 
-        move_uploaded_file($_FILES['image']['tmp_name'], _JEUX_IMG_PATH . $fileName);
-
-    } else {
-        echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
+            move_uploaded_file($_FILES['image']['tmp_name'], _JEUX_IMG_PATH . $fileName);
+        } else {
+            echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
+        }
     }
-}
 
 
     $res = saveTableGames(
@@ -60,7 +59,6 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         $error = true;
         echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le jeu n\'a pas été ajouté</div></div>';
     }
-
 }
 
 ?>
@@ -77,7 +75,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
             <label for="Titre"><span class="text-slate-50">Nom du jeu: </span></label>
             <input class="w-full rounded" type="text" name="Titre" id="Titre" placeholder="Le titre de votre jeu">
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Titre'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Titre'])) {
                 echo '<div class="text-red-500">Veuillez renseigner un Titre</div>';
             }
             ?>
@@ -89,28 +87,28 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
             <label for="Description"><span class="text-slate-50">Description: </span></label>
             <textarea class="w-full h-32 rounded" type="Description" name="Description" id="Description" placeholder="La description de votre jeu"></textarea>
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Description'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Description'])) {
                 echo '<div class="text-red-500">Veuillez renseigner une description</div>';
             }
             ?>
         </div>
 
-       
+
         <!-- Style -->
 
         <div class="py-3 px-8 mx-8">
             <label for="style"><span class="text-slate-50">Style: </span></label>
             <select class="w-full rounded" type="input" name="style" id="style">
-            <option value="0"> -- Choisissez un style --</option>
+                <option value="0"> -- Choisissez un style --</option>
                 <?php
                 $styles = getGameStyle($pdo);
                 foreach ($styles as $style) {
-                    echo '<option value="' . $style['id'] . '">' . $style['style'] . '</option>';
+                    echo '<option value="' . $style['id_style'] . '">' . $style['style'] . '</option>';
                 }
                 ?>
             </select>
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['style'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['style'])) {
                 echo '<div class="text-red-500">Veuillez renseigner au moins un style</div>';
             }
             ?>
@@ -121,7 +119,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         <div class="py-3 px-8 mx-8">
             <label for="id_support"><span class="text-slate-50">support: </span></label>
             <select class="w-full rounded" type="input" name="id_support" id="id_support">
-            <option value="0"> -- Choisissez un support --</option>
+                <option value="0"> -- Choisissez un support --</option>
 
                 <?php
                 $supports = getGameSupport($pdo);
@@ -130,9 +128,9 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
                 }
                 ?>
             </select>
-            
+
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_support'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_support'])) {
                 echo '<div class="text-red-500">Veuillez renseigner au moins un support</div>';
             }
             ?>
@@ -143,7 +141,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         <div class="py-3 px-8 mx-8">
             <label for="Statut"><span class="text-slate-50">Statut: </span></label>
             <select class="w-full rounded" type="Statut" name="Statut" id="Statut">
-            <option value="0"> -- Choisissez un statut --</option>
+                <option value="0"> -- Choisissez un statut --</option>
 
                 <?php
                 $statuts = getGameStatut($pdo);
@@ -153,9 +151,9 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
                 ?>
 
             </select>
-            
+
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Statut'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Statut'])) {
                 echo '<div class="text-red-500">Veuillez renseigner au moins un statut</div>';
             }
             ?>
@@ -166,7 +164,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         <div class="py-3 px-8 mx-8">
             <label for="moteur"><span class="text-slate-50">Moteur de développement: </span></label>
             <select class="w-full rounded" type="moteur" name="moteur" id="moteur">
-            <option value="0"> -- Choisissez un moteur --</option>
+                <option value="0"> -- Choisissez un moteur --</option>
 
                 <?php
                 $moteurs = getGameMoteur($pdo);
@@ -176,7 +174,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
                 ?>
             </select>
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['moteur'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['moteur'])) {
                 echo '<div class="text-red-500">Veuillez renseigner au moins un moteur</div>';
             }
             ?>
@@ -187,7 +185,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
         <div class="py-3 px-8 mx-8">
             <label for="nombre_joueurs"><span class="text-slate-50">Nombre de joueur(s): </span></label>
             <select class="w-full rounded" type="moteur" name="nombre_joueurs" id="nombre_joueurs">
-            <option value="0"> -- Choisissez un nombre de joueurs --</option>
+                <option value="0"> -- Choisissez un nombre de joueurs --</option>
 
                 <?php
                 $nombre_joueurs = getGameNombreJoueur($pdo);
@@ -197,7 +195,7 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
                 ?>
             </select>
             <?php
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_joueurs'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_joueurs'])) {
                 echo '<div class="text-red-500">Veuillez renseigner au moins un nombre de joueur</div>';
             }
             ?>
@@ -217,25 +215,25 @@ if(isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
                 <label for="budget"><span class="text-slate-50">Budget: </span></label>
                 <input type="number" name="budget" id="budget" placeholder="100000" value="0"><span class="text-slate-50">€</span>
                 <?php
-                if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['budget'])) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['budget'])) {
                     echo '<div class="text-red-500">Veuillez renseigner un budget</div>';
                 }
                 ?>
             </div>
         </div>
-        
-         <!-- Image -->
 
-         <div class="py-3 px-8 mx-8">
+        <!-- Image -->
+
+        <div class="py-3 px-8 mx-8">
             <label for="Image"><span class="text-slate-50">Image <span id="nbImage">1</span>: </span></label>
             <input type="file" name="image" id="Image" class="text-slate-50">
-       
+
         </div>
         <hr class="my-8">
-       <div class="mx-auto text-center">
-        <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="saveGame">
-       </div>
-        
+        <div class="mx-auto text-center">
+            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="saveGame">
+        </div>
+
     </form>
 
 
