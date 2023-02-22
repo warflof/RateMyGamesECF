@@ -65,13 +65,7 @@ function addGameImg(PDO $pdo, array $jeux)
     return $receiveGameImg->fetchAll();
 }
 
-function addAdditionnalImages(PDO $pdo, array $jeux)
-{
-    $receiveAdditionnalImages = $pdo->prepare("SELECT * FROM image WHERE jeu_id = :jeu_id;");
-    $receiveAdditionnalImages->bindParam(':jeu_id', $jeux['ID']);
-    $receiveAdditionnalImages->execute();
-    return $receiveAdditionnalImages->fetchAll();
-}
+
 
 // Récupère la table jeu dans l'ordre décroissant
 
@@ -262,28 +256,29 @@ function updateGameNombreJoueur(PDO $pdo, int $id, int $nbJoueur)
 
 function updateGameImage(PDO $pdo, int $id, string|NULL $image)
 {
-    
+    if (!empty($image)) {
         $query = $pdo->prepare("UPDATE jeu SET image = :image WHERE ID = :id");
         $query->bindParam(':image', $image, PDO::PARAM_STR);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         return $query->execute();
-    
+    } else {
+        return false;
+    }
 };
 
-function updateAdditionnalImages(PDO $pdo, int $id, array $jeux, string|NULL $Image)
+function updateAdditionnalImages(PDO $pdo, int $id, array $jeux, string|NULL $additionalImage)
 {
-    if(!addAdditionnalImages($pdo, $jeux)) {
-        $query = $pdo->prepare("INSERT INTO image (jeu_id, image) VALUES (:id, :image)");
+    if (empty(addGameImg($pdo, $jeux))) {
+        $query = $pdo->prepare("INSERT INTO image (jeu_id, nom_image) VALUES (:id, :imageAdditional)");
         $query->bindParam(':id', $id, PDO::PARAM_INT);
-        $query->bindParam(':imageAdditional', $Image, PDO::PARAM_STR);
+        $query->bindParam(':imageAdditional', $additionalImage, PDO::PARAM_STR);
         return $query->execute();
     } else {
-        $query = $pdo->prepare("UPDATE image SET image = :image WHERE id = :id");
-        $query->bindParam(':imageAdditional', $Image, PDO::PARAM_STR);
+        $query = $pdo->prepare("UPDATE image SET nom_image = :image WHERE id = :id");
+        $query->bindParam(':imageAdditional', $additionalImage, PDO::PARAM_STR);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         return $query->execute();
     }
-    
 };
 
 

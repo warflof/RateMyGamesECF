@@ -11,9 +11,7 @@ $supports = addGameSupport($pdo, $jeux);
 $styles = addGameStyle($pdo, $jeux);
 $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteur = addGameMoteur($pdo, $jeux);
-
-
-var_dump($nbJoueurs);
+$image = addGameImg($pdo, $jeux);
 
 
 
@@ -39,34 +37,35 @@ var_dump($nbJoueurs);
                 </div>
                 <!-- Début image Galery -->
 
-                <section class="overflow-hidden text-gray-700">
-                    <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
-                        <div class="flex flex-wrap -m-1 md:-m-2">
-                            <div class="flex flex-wrap w-1/2">
-                                <div class="w-1/2 p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($jeux['image']); ?>">
-                                </div>
-                                <div class="w-1/2 p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($jeux['image']); ?>"> <!-- Remplacer 'image' par 'image2' -->
-                                </div>
-                                <div class="w-full p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image3' -->
-                                </div>
+                <div id="default-carousel" class="relative py-8" data-carousel="static">
+                    <!-- Carousel wrapper -->
+                    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                        <?php
+                        foreach ($image as $img) { ?>
+                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($img['nom_image']) ?>">
                             </div>
-                            <div class="flex flex-wrap w-1/2">
-                                <div class="w-full p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image4' -->
-                                </div>
-                                <div class="w-1/2 p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image5' -->
-                                </div>
-                                <div class="w-1/2 p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($jeux['image']); ?>"><!-- Remplacer 'image' par 'image5' -->
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
+
+                        <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </button>
                     </div>
-                </section>
+                </div>
+
 
                 <!-- Fin image Galery -->
 

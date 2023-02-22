@@ -13,31 +13,14 @@ $styles = addGameStyle($pdo, $jeux);
 $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteurs = addGameMoteur($pdo, $jeux);
 $images = addGameImg($pdo, $jeux);
-$imagesAdditional = addAdditionnalImages($pdo, $jeux);
 
 
-
-if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
-    $fileName = NULL;
-    // la méthode getimagesize va retourner false si le fichier n'est pas une image
-    $checkImage = getimagesize($_FILES['image']['tmp_name']);
-    if ($checkImage !== false) {
-        // on génère un nom unique et standardisé pour l'image
-        $fileName = uniqid() . '-' . slugify($_FILES['image']['name']);
-
-        move_uploaded_file($_FILES['image']['tmp_name'], _JEUX_IMG_PATH . $fileName);
-    } else {
-        echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
-    }
-}
-
-
-// if (isset($_FILES['image']) && !empty($_FILES['image']['name'][0])) {
+// if (isset($_FILES['file']['tmp_name']) && !empty($_FILES['file']['tmp_name'][0])) {
 //     // prépare la requête d'insertion
 //     $stmt = $pdo->prepare('INSERT INTO image (jeu_id, nom_image) VALUES (:jeu_id, :name)');
 
 //     // boucle sur chaque fichier téléchargé
-//     foreach ($_FILES['image']['tmp_name'] as $key => $tmp_name) {
+//     foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
 //         $fileName = NULL;
 //         // la méthode getimagesize va retourner false si le fichier n'est pas une image
 //         $checkImage = getimagesize($tmp_name);
@@ -49,8 +32,8 @@ if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 
 //             // insère les informations de l'image dans la table images
 //             $stmt->execute([
-//                 'jeu_id' => $jeu_id,
-//                 'name' => $_FILES['image']['name'][$key]
+//                 'id' => $jeu_id,
+//                 'nom_image' => $_FILES['image']['name'][$key]
 //             ]);
 //         } else {
 //             echo $errors[] = 'Le fichier ' . $_FILES['image']['name'][$key] . ' n\'est pas une image';
@@ -60,8 +43,25 @@ if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 
 if (isset($_POST['modifyGame'])) {
 
+    // if (isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != '') {
+    //     $fileName = NULL;
+    //     // la méthode getimagesize va retourner false si le fichier n'est pas une image
+    //     $checkImage = getimagesize($_FILES['file']['tmp_name']);
+    //     if ($checkImage !== false) {
+    //         // on génère un nom unique et standardisé pour l'image
+    //         $fileName = uniqid() . '-' . slugify($_FILES['file']['name']);
+
+    //         move_uploaded_file($_FILES['file']['tmp_name'], _JEUX_IMG_PATH . $fileName);
+    //     } else {
+    //         echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
+    //     }
+    // }
+
+
+    $fileName = NULL;
+
+    // Vérifie si une seule image a été uploadée
     if (isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != '') {
-        $fileName = NULL;
         // la méthode getimagesize va retourner false si le fichier n'est pas une image
         $checkImage = getimagesize($_FILES['file']['tmp_name']);
         if ($checkImage !== false) {
@@ -73,6 +73,34 @@ if (isset($_POST['modifyGame'])) {
             echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
         }
     }
+
+    // Vérifie si plusieurs images ont été uploadées
+    if (isset($_FILES['imageAdditional']['tmp_name']) && !empty($_FILES['imageAdditional']['tmp_name'][0])) {
+        // prépare la requête d'insertion
+        $stmt = $pdo->prepare('INSERT INTO image (jeu_id, nom_image) VALUES (:jeu_id, :name)');
+
+        // boucle sur chaque fichier téléchargé
+        foreach ($_FILES['imageAdditional']['tmp_name'] as $key => $tmp_name) {
+            // la méthode getimagesize va retourner false si le fichier n'est pas une image
+            $checkImage = getimagesize($tmp_name);
+            if ($checkImage !== false) {
+                // on génère un nom unique et standardisé pour l'image
+                $multipleFileName = uniqid() . '-' . slugify($_FILES['imageAdditional']['name'][$key]);
+
+                move_uploaded_file($tmp_name, _JEUX_IMG_PATH . $multipleFileName);
+
+                // insère les informations de l'image dans la table images
+                $stmt->execute([
+                    'jeu_id' => $id,
+                    'name' => $multipleFileName
+                ]);
+            } else {
+                echo $errors[] = 'Le fichier ' . $_FILES['imageAdditional']['name'][$key] . ' n\'est pas une image';
+            }
+        }
+    };
+
+
 
     $res = updateGame(
         $pdo,
@@ -87,12 +115,11 @@ if (isset($_POST['modifyGame'])) {
     $res2 = updateGameSupport($pdo, $id, $_POST['support']);
     $res3 = updateGameStyle($pdo, $id, $_POST['style']);
     $res4 = updateGameNombreJoueur($pdo, $id, $_POST['id_nombre_joueur']);
-    // $res5 = updateAdditionnalImages($pdo, $id, $jeux, $_POST['imageAdditional']);
-    $res6 = updateGameImage($pdo, $id, $fileName);
-    // var_dump($res);
+    $res5 = updateGameImage($pdo, $id, $fileName);
+
+    echo "<script>location.href = location.href;</script>";
 }
 
-var_dump(!addGameSupport($pdo, $jeux));
 
 ?>
 
@@ -101,7 +128,7 @@ var_dump(!addGameSupport($pdo, $jeux));
 
     <h1 class="text-5xl text-slate-50 text-center py-6">Modification de <br /><?= $jeux['Titre'] ?></h1>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" action="Modification_jeu.php?id=<?= $jeux['ID'] ?>">
 
         <!-- Titre -->
 
@@ -131,6 +158,11 @@ var_dump(!addGameSupport($pdo, $jeux));
 
         <div class="py-3 px-8 mx-8">
             <label for="style"><span class="text-slate-50">Style: </span></label>
+
+            <!-- foreach($jeux['ID']) {
+                echo '<select></select>';
+            } -->
+
             <select class="w-full rounded" type="input" name="style" id="style">
                 <?php
                 if (empty($styles[0]['style'])) {
@@ -289,19 +321,43 @@ var_dump(!addGameSupport($pdo, $jeux));
         <!-- Image -->
 
         <div class="py-3 px-8 mx-8">
-            <label for="file"><span class="text-slate-50">Image: </span></label>
+            <label for="file"><span class="text-slate-50">Image de couverture: </span></label>
             <input type="file" name="file" id="file" class="text-slate-50">
-            <img src="<?= _JEUX_IMG_PATH . $jeux['image'] ?>" alt="image du jeu" class="w-1/6 ml-0 py-4 object-cover">
+            <div class="flex items-center">
+                <?php
+                if (!empty($jeux['image'])) {
+                    echo '<img src="' . _JEUX_IMG_PATH . $jeux['image'] . '" alt="image du jeu" class="w-1/6 ml-0 py-4 object-cover">
+                    <a href="suppression_imageCover.php?id='.$jeux['ID'].'&nom_image='.$jeux['image'].'" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                    Supprimer l\'image de couverture
+                    </a>';
+                }
+                ?>
+                 
+                    
+            </div>
         </div>
+
+        <!-- Images complémentaires -->
+
         <div class="py-3 px-8 mx-8">
-            <label for="imageAdditional"><span class="text-slate-50">Images complémentaires: </span></label>
+            <label for="imageAdditional"><span class="text-slate-50">Images supplémentaires: </span></label>
             <input type="file" name="imageAdditional[]" id="imageAdditional" class="text-slate-50" multiple>
         </div>
-        <div class="scroll-container scrollable">
+        <div class="flex flex-row py-8 text-center">
             <?php foreach ($images as $image) : ?>
-                <img src="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>" alt="image du jeu" class="w-1/6 mx-auto object-cover">
+                <div class="mx-2">
+                    <a href="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>"><img src="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>" alt="image du jeu" class="mx-2 max-h-32 object-cover rounded-md"></a>
+                    <div class="py-4">
+                        <a href="suppression_imageAdditionnel_jeu.php?id=<?= $jeux['ID'] ?>&image=<?= $image['id'] ?>&nom_image=<?= $image['nom_image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Supprimer l'image</a>
+                    </div>
+                </div>
             <?php endforeach; ?>
+
         </div>
+
+
+
+
 
 
         <hr class="my-8">
@@ -310,7 +366,7 @@ var_dump(!addGameSupport($pdo, $jeux));
         <!-- Bouton d'envoi du formulaire -->
 
         <div class="mx-auto text-center">
-            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyGame" action="Jeu.php?id=<?=$id?>">
+            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyGame" action="Jeu.php?id=<?= $id ?>">
         </div>
 
     </form>
