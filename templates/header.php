@@ -41,9 +41,9 @@ require_once('lib/pdo.php');
       </a>
 
 
-       <!-- ################################# MENU #################################### -->
+      <!-- ################################# MENU #################################### -->
 
-       <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
         <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
           <li class="">
             <a href="index.php" class="block py-2 pl-3 pr-4 text-slate-500 rounded md:bg-transparent md:text-slate-50 md:p-0 dark:text-white">
@@ -70,44 +70,72 @@ require_once('lib/pdo.php');
                 <div class="py-2">
                   <a href="Jeu.php?id=1" class="py-2 px-4">Juste un jeux</a>
                 </div>
-                <?php if(isset($_SESSION['user'])) { ?>
-                <div class="py-2">
-                  <a href="ajout_modification_jeu.php" class="py-2 px-4">Ajout / Modif Jeu</a>
-                </div>
+                <?php if (isset($_SESSION['user'])) { ?>
+                  <div class="py-2">
+                    <a href="ajout_modification_jeu.php" class="py-2 px-4">Ajout / Modif Jeu</a>
+                  </div>
                 <?php } ?>
               </ul>
             </div>
             </p>
           </li>
-
-          <li class="">
-            <a href="dashboard.php" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+          <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
+            <li class="">
+              <!-- <a href="dashboard.php" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
               Dashboard
-            </a>
-          </li>
+            </a> -->
+              <p id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-center inline-flex block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-slate-50 md:hover:bg-transparent md:hover:text-slate-50 md:p-0">
+                Dashboard
+                <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </p>
+              <!-- Dropdown menu -->
+              <div id="dropdownHover" class="z10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+                  <li>
+                    <a href="dashboard.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      Modification jeux
+                    </a>
+                  </li>
+                  <li>
+                    <a href="gestion_utilisateur.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      Gestion des utilisateurs
+                    </a>
+                  </li>
+                  
+                </ul>
+              </div>
+
+
+            </li>
+          <?php } ?>
 
         </ul>
       </div>
 
       <div class="flex items-center md:order-2">
         <!-- ####################################### DROPDOWN MENU ####################################### -->
-        <?php if(!isset($_SESSION['user'])) { ?>
-        <a href="login.php">
-          <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Se connecter</button>
-        </a>
-        <a href="inscription.php">
-          <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Créer un compte</button>
-        </a>
+        <?php if (!isset($_SESSION['user'])) { ?>
+          <a href="login.php">
+            <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Se connecter</button>
+          </a>
+          <a href="inscription.php">
+            <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Créer un compte</button>
+          </a>
         <?php } else { ?>
-        <a href="logout.php">
-          <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Se déconnecter</button>
-        </a>
+          <div>
+            <p class="text-slate-50 mx-2 rounded-lg py-2 px-2 bg-gray-800">Bonjour <?php echo $_SESSION['user']['email']; ?></p>
+          </div>
+          <a href="logout.php">
+            <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Se déconnecter</button>
+          </a>
         <?php } ?>
-        
+
 
       </div>
 
-     
+
     </div>
   </nav>
   <div class="bg-black/[.8]">

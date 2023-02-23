@@ -65,6 +65,14 @@ function addGameImg(PDO $pdo, array $jeux)
     return $receiveGameImg->fetchAll();
 }
 
+function addUsersRoles(PDO $pdo, array $users)
+{
+    $receiveUsersRoles = $pdo->prepare("SELECT * FROM utilisateur_role_vw WHERE email = :email;");
+    $receiveUsersRoles->bindParam(':email', $users['email']);
+    $receiveUsersRoles->execute();
+    return $receiveUsersRoles->fetch();
+}
+
 
 
 // Récupère la table jeu dans l'ordre décroissant
@@ -143,6 +151,20 @@ function getGameImg(string|null $image)
     }
 };
 
+function getUsers(PDO $pdo)
+{
+    $query = $pdo->prepare("SELECT email, role_id FROM utilisateur");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+};
+
+function getRole(PDO $pdo)
+{
+    $query = $pdo->prepare("SELECT * FROM role");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+};
+
 $insertStyle = "INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);";
 // INSERT TABLE jeu
 function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur, int $nombre_joueur, string $dateEstimeeFin, int $budget)
@@ -152,9 +174,7 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     VALUES (NULL, :Titre, :Description, :image, :jouable, :id_moteur, :date_estimee_fin, :budget);
     INSERT INTO jeu_nombre_joueur (jeu_id, nombre_joueur_id) VALUES (LAST_INSERT_ID(), :id_nombre_joueur);
     INSERT INTO jeu_support (jeu_id, support_id) VALUES (LAST_INSERT_ID(), :support);
-    INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style); 
-    INSERT INTO image (jeu_id, nom_image) VALUES (LAST_INSERT_ID(), :image);
-    
+    INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);   
     ");
     if (empty($Titre) || empty($Description) || empty($style) || empty($support) || empty($statut) || empty($moteur) || empty($nombre_joueur) || empty($dateEstimeeFin) || empty($budget)) {
 
@@ -280,6 +300,7 @@ function updateAdditionnalImages(PDO $pdo, int $id, array $jeux, string|NULL $ad
         return $query->execute();
     }
 };
+
 
 
 

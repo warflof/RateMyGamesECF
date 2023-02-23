@@ -26,8 +26,20 @@ function verifyUser(PDO $pdo, string $email, string $password)
 
 
     if ($users && password_verify($password, $users['password'])) {
+       // Récupère le rôle de l'utilisateur depuis la base de données
+       $query = $pdo->prepare("SELECT * FROM utilisateur_role_vw WHERE email = :email");
+       $query->bindParam(":email", $users['email'], PDO::PARAM_INT);
+       $query->execute();
+       $role = $query->fetch();
+
+       // Stocke le rôle de l'utilisateur dans la session
+       session_start();
+       $_SESSION['role'] = $role;
+       
         return $users;
     } else {
         return false;
     }
 }
+
+

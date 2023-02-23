@@ -1,8 +1,14 @@
 <?php
+require_once('lib/session.php');
+
+
 require('templates/header.php');
 require('lib/jeuxData.php');
 
 $jeux = getGames($pdo, _HOME_GAMES_LIMIT);
+
+var_dump(intval($_SESSION['role']['role']));
+
 ?>
 
 

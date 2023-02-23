@@ -21,6 +21,23 @@ $image = addGameImg($pdo, $jeux);
 
 <main class="py-8">
     <div class="container mx-auto px-2">
+        <div class="text-right">
+            <a href="Modification_jeu.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
+                Modifier
+            </a>
+            <a href="suppression_jeu.php?id=<?= $jeux['ID'] ?>" onclick="return confirmBox()" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
+                Supprimer
+            </a>
+            <script>
+                function confirmBox() {
+                    if(confirm("Voulez-vous vraiment supprimer ce jeu ?")) {
+                    return true;
+                    } else {
+                    return false;
+                    }
+                }
+            </script>
+        </div>
         <div class="md:flex">
             <div class="w-full h-full md:w-1/2">
                 <div class="pt-12">

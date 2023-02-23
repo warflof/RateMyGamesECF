@@ -18,6 +18,7 @@ if (isset($_POST['loginUser'])) {
 
     if ($users) {
         $_SESSION['user'] = ['email' => $users['email']];
+        $_SESSION['role'] = ['role' => $users['role_id']];
         $messages[] = 'Vous êtes connecté';
         ?>
         <script>
@@ -27,6 +28,8 @@ if (isset($_POST['loginUser'])) {
     } else {
         $errors[] = 'Email ou mot de passe incorrect';
     }
+
+    
 }
 
 

@@ -1,18 +1,14 @@
-let i = 0;
-let j = 0;
-let original = document.getElementById('InputImage');
-let nbImage = document.getElementById('nbImage');
+// Récupère le formulaire
+const form = document.querySelector('form');
 
-function duplicate() {
-    if(j < 6){
-        let clone = original.cloneNode(true);
-        clone.nodeName = 'addImage' + ++i;
-        original.parentNode.appendChild(clone);
-        j++;
-        nbImage.innerHTML = j+1;
-    }
-
-    else {
-        alert("Vous ne pouvez pas ajouter plus de 6 images");
-    }
-}
+// Ajoute un écouteur d'événement sur la soumission du formulaire
+form.addEventListener('submit', (event) => {
+  // Empêche le formulaire de se soumettre normalement
+  event.preventDefault();
+  
+  // Récupère l'URL de la page à laquelle rediriger l'utilisateur
+  const url = 'chemin/vers/la/page/de/destination.php';
+  
+  // Redirige l'utilisateur
+  window.location.href = url;
+});
