@@ -62,7 +62,7 @@ require_once('lib/pdo.php');
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
 
-            <div id="dropdownGames" class="z-10 hidden bg-gray-700 divide-y divide-gray-100 rounded-lg w-42 shadow dark:dark-gray-700 dark:divide-gray-600">
+            <div id="dropdownGames" class="z-50 hidden bg-gray-700 divide-y divide-gray-100 rounded-lg w-42 shadow dark:dark-gray-700 dark:divide-gray-600">
               <ul class="px-4 py-3 text-sm text-slate-50 dark:text-dark">
                 <div class="py-2">
                   <a href="Produits.php" class="py-2 px-4">Tous les jeux</a>
@@ -70,20 +70,17 @@ require_once('lib/pdo.php');
                 <div class="py-2">
                   <a href="Jeu.php?id=1" class="py-2 px-4">Juste un jeux</a>
                 </div>
-                <?php if (isset($_SESSION['user'])) { ?>
+                <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 ) { ?>
                   <div class="py-2">
-                    <a href="ajout_modification_jeu.php" class="py-2 px-4">Ajout / Modif Jeu</a>
+                    <a href="ajout_modification_jeu.php" class="py-2 px-4">Ajouter un Jeu</a>
                   </div>
                 <?php } ?>
               </ul>
             </div>
             </p>
           </li>
-          <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
+          <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 ) { ?>
             <li class="">
-              <!-- <a href="dashboard.php" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              Dashboard
-            </a> -->
               <p id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-center inline-flex block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-slate-50 md:hover:bg-transparent md:hover:text-slate-50 md:p-0">
                 Dashboard
                 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -98,11 +95,13 @@ require_once('lib/pdo.php');
                       Modification jeux
                     </a>
                   </li>
+                  <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
                   <li>
                     <a href="gestion_utilisateur.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                       Gestion des utilisateurs
                     </a>
                   </li>
+                  <?php } ?>
                   
                 </ul>
               </div>

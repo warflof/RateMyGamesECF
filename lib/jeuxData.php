@@ -65,12 +65,16 @@ function addGameImg(PDO $pdo, array $jeux)
     return $receiveGameImg->fetchAll();
 }
 
-function addUsersRoles(PDO $pdo, array $users)
+function addUsersRoles(PDO $pdo, array $utilisateurs)
 {
+    $results = [];
     $receiveUsersRoles = $pdo->prepare("SELECT * FROM utilisateur_role_vw WHERE email = :email;");
-    $receiveUsersRoles->bindParam(':email', $users['email']);
-    $receiveUsersRoles->execute();
-    return $receiveUsersRoles->fetch();
+    foreach ($utilisateurs as $utilisateur) {
+        $receiveUsersRoles->bindParam(':email', $utilisateur['email']);
+        $receiveUsersRoles->execute();
+        $results[] = $receiveUsersRoles->fetchAll();
+    }
+    return $results;
 }
 
 
@@ -299,6 +303,14 @@ function updateAdditionnalImages(PDO $pdo, int $id, array $jeux, string|NULL $ad
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         return $query->execute();
     }
+};
+
+function updateRole(PDO $pdo, string $email, int $role) 
+{
+    $query = $pdo->prepare("UPDATE utilisateur SET role_id = :role WHERE email = :email");
+    $query->bindParam(':role', $role, PDO::PARAM_INT);
+    $query->bindParam(':email', $email, PDO::PARAM_STR);
+    return $query->execute();
 };
 
 

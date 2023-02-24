@@ -1,6 +1,6 @@
 <?php
 require_once('lib/session.php');
-if (intval($_SESSION['role']['role'])!==1) {
+if (intval($_SESSION['role']['role'])==6) {
     header('Location: index.php');
 } 
 require_once('templates/header.php');
@@ -18,7 +18,7 @@ $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteurs = addGameMoteur($pdo, $jeux);
 $images = addGameImg($pdo, $jeux);
 
-var_dump((intval($_SESSION['role'])));
+var_dump((intval($_SESSION['role']['role'])));
 
 if (isset($_POST['modifyGame'])) {
 
@@ -323,11 +323,6 @@ if (isset($_POST['modifyGame'])) {
             <?php endforeach; ?>
 
         </div>
-
-
-
-
-
 
         <hr class="my-8">
 

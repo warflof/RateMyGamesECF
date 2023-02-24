@@ -3,63 +3,70 @@ require('templates/header.php');
 require_once('lib/jeuxData.php');
 
 $utilisateurs = getUsers($pdo);
-$role = addUsersRoles($pdo, $utilisateurs);
-$test = getRole($pdo, $utilisateurs);
-var_dump($utilisateurs);
+$roles = addUsersRoles($pdo, $utilisateurs);
+
+// var_dump(intval($roles[2][0]['role_id']));
+
+if (isset($_POST['modifyRole'])) {
+
+    foreach ($utilisateurs as $key => $utilisateur) {
+        $role = intval($_POST['role'][$key]);
+        $mail = $utilisateur['email'];
+        $query = $pdo->prepare("UPDATE utilisateur SET role_id = :role WHERE email = :email");
+        $query->bindParam(':role', $role, PDO::PARAM_INT);
+        $query->bindParam(':email', $mail, PDO::PARAM_STR);
+        $query->execute();
+    }
+    // rediriger ou afficher un message de confirmation
+
+}
+
 ?>
-<!-- <h1 class="text-4xl text-slate-50 text-center py-6">Modification des jeux</h1>
 
-<div class="container mx-auto px-auto py-8"> -->
+<form method="POST" enctype="multipart/form-data">
+    <h1 class="text-4xl text-slate-50 text-center py-6">Modification des utilisateurs</h1>
 
-<table class="table-auto mx-auto">
-    <thead>
-        <h1 class="text-4xl text-slate-50 text-center py-6">Modification des utilisateurs</h1>
+    <div class="flex flex-col">
+        <?php
+        foreach ($roles as $key => $role) { ?>
+            <div class="container mx-auto px-96">
+                <div class="border-2 border-slate-50 flex flex-row">
+                    <div class="basis-1/2 py-2">
+                    <span class="text-slate-50 mx-2 basis-1/2">
+                        <?= $role[0]['email'] ?>
+                    </span>
+                    </div>
+                    <div class="basis-1/2 flex justify-end mx-2">
+                    <select name="role[<?= $key ?>]" class="my-2 rounded">
+                        <?php
 
-        <div class="container mx-auto px-auto py-4">
-            <tr class="border-2 border-slate-50">
+                        echo '<option value="' . intval($role[0]['role_id']) . '">' . $role[0]['nom_role'] . '</option>';
 
-                <th class="text-slate-50 border-2 border-slate-50">Email</th>
-                <th class="text-slate-50 text-center">Role</th>
+                        ?>
 
-            </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($utilisateurs as $key => $utilisateur) { ?>
+                        <?php
+                        $rolesInBase = getRole($pdo);
+                        foreach ($rolesInBase as $roleInBase) {
+                            echo '<option value="' . intval($roleInBase['id_role']) . '">' . $roleInBase['nom_role'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+            </div>
 
-            <tr class=" border-2 border-slate-500">
-                <td class="border-2 border-slate-50 text-slate-50">
-                    <?= $utilisateur['email']; ?>
-                </td>
-            
-            <td class="mx-8 px-auto py-4 border-2 border-slate-50">
-                <!-- Mettre un <select></select> avec les valeurs de role_id -->
-                <select class="w-full rounded" type="input" name="role" id="role">
-                    <?php
-                    if (empty($utilisateur['email'])) {
-                        echo '<option value="">Aucun style</option>';
-                    } else {
-                        echo '<option value="' . intval($role[0]['role_id']) . '">' . $utilisateur['role_id'] . '</option>';
-                    }
-                    ?>
-                    <?php
-                    $rolesInBase = getRole($pdo);
-                    foreach ($rolesInBase as $roleInBase) {
-                        echo '<option value="' . intval($roleInBase['id_role']) . '">' . $roleInBase['nom_role'] . '</option>';
-                    }
-                    ?>
-                </select>
-
-
-            </td>
-            </tr>
-<?php
+        <?php
         }
         ?>
+    </div>
 
-    </tbody>
-</table>
 
-</div>
+
+    <div class="mx-auto text-center py-8">
+        <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyRole">
+    </div>
+</form>
+
 
 <?php
 require('templates/footer.php');

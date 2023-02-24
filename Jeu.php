@@ -21,7 +21,11 @@ $image = addGameImg($pdo, $jeux);
 
 <main class="py-8">
     <div class="container mx-auto px-2">
-        <div class="text-right">
+    
+    <!-- Si l'utilisateur n'est pas un admin, il ne peut pas modifier ou supprimer le jeu -->
+    <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 ) { ?>
+    
+    <div class="text-right">
             <a href="Modification_jeu.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
                 Modifier
             </a>
@@ -38,6 +42,7 @@ $image = addGameImg($pdo, $jeux);
                 }
             </script>
         </div>
+        <?php } ?>
         <div class="md:flex">
             <div class="w-full h-full md:w-1/2">
                 <div class="pt-12">

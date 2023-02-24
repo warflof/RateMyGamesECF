@@ -7,7 +7,7 @@ require('lib/jeuxData.php');
 
 $jeux = getGames($pdo, _HOME_GAMES_LIMIT);
 
-var_dump(intval($_SESSION['role']['role']));
+// var_dump(intval($_SESSION['role']['role']));
 
 ?>
 
@@ -24,7 +24,7 @@ var_dump(intval($_SESSION['role']['role']));
     <div class="grid grid-cols-3 mb-16">
 
       <!-- CAROUSEL ACTU -->
-      <div class="col-span-2">
+      <div class="col-span-2 mx-8">
         <h2 class="text-slate-50 text-5xl text-center mb-8">Actualités</h2>
 
         <div id="animation-carousel" class="relative" data-carousel="static">
