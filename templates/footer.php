@@ -1,3 +1,5 @@
+</div>
+</body>
 <footer class="bg-white dark:bg-gray-900 inset-x-0 bottom-0">
   <div class="grid grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
       <div>
@@ -60,7 +62,7 @@
     
     
 </div>
-</body>
+
 
 <script src="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js"></script>
 <script src="js/Produits.js"></script>

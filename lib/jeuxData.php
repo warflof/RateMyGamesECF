@@ -35,16 +35,16 @@ function addGameSupport(PDO $pdo, array $jeux)
 
 function addGameStyle(PDO $pdo, array $jeux)
 {
-    $receiveStyle = $pdo->prepare("SELECT * FROM jeu_style_vw WHERE Titre = :Titre;");
-    $receiveStyle->bindParam(':Titre', $jeux['Titre']);
+    $receiveStyle = $pdo->prepare("SELECT * FROM jeu_style_vw WHERE ID = :ID;");
+    $receiveStyle->bindParam(':ID', $jeux['ID']);
     $receiveStyle->execute();
     return $receiveStyle->fetchAll();
 }
 
 function addGameNbJoueur(PDO $pdo, array $jeux)
 {
-    $receiveNbJoueur = $pdo->prepare("SELECT * FROM jeu_nombre_joueur_vw WHERE Titre = :Titre;");
-    $receiveNbJoueur->bindParam(':Titre', $jeux['Titre']);
+    $receiveNbJoueur = $pdo->prepare("SELECT * FROM jeu_nombre_joueur_vw WHERE ID = :ID;");
+    $receiveNbJoueur->bindParam(':ID', $jeux['ID']);
     $receiveNbJoueur->execute();
     return $receiveNbJoueur->fetchAll();
 }
@@ -169,6 +169,16 @@ function getRole(PDO $pdo)
     return $query->fetchAll(PDO::FETCH_ASSOC);
 };
 
+function getFavoris(PDO $pdo, string $mail)
+{
+    $query = $pdo->prepare("SELECT * FROM utilisateur_jeu WHERE utilisateur_email = :email");
+    $query->bindParam(':email', $mail);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+};
+
+
+
 $insertStyle = "INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);";
 // INSERT TABLE jeu
 function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur, int $nombre_joueur, string $dateEstimeeFin, int $budget)
@@ -204,7 +214,13 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     }
 };
 
-// UPDATE TABLE jeu
+
+
+
+
+
+
+// FUNCTION UPDATE TABLE 
 
 function updateGame(PDO $pdo, int $id, string $Titre, string $Description, int $statut, int $moteur, string $dateEstimeeFin, int $budget)
 {
@@ -319,13 +335,6 @@ function updateRole(PDO $pdo, string $email, int $role)
 
 
 
-
-function dropGame(PDO $pdo, int $id)
-{
-    $query = $pdo->prepare("DELETE FROM jeu WHERE id = :id");
-    $query->bindParam(':id', $id, PDO::PARAM_INT);
-    return $query->execute();
-};
 /*
 
 On souhaite ajouter des styles supplémentaire à un jeu.
