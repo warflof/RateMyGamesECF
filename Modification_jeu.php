@@ -68,7 +68,7 @@ if (isset($_POST['modifyGame'])) {
             }
         };
 
-
+      
 
         $res = updateGame(
             $pdo,
@@ -78,7 +78,8 @@ if (isset($_POST['modifyGame'])) {
             $_POST['jouable'],
             $_POST['id_moteur'],
             $_POST['date_estimee_fin'],
-            $_POST['budget']
+            $_POST['budget'],
+            
         );
         $res2 = updateGameSupport($pdo, $id, $_POST['support']);
         $res3 = updateGameStyle($pdo, $id, $_POST['style']);

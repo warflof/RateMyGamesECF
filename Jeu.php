@@ -27,13 +27,13 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
     <div class="container mx-auto px-2">
 
         <!-- Si l'utilisateur n'est pas un admin, il ne peut pas modifier ou supprimer le jeu -->
-        <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2) { ?>
+        <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
 
             <div class="text-right">
-                <a href="Modification_jeu.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
+                <a href="Modification_jeu.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-1 border-2 border-slate-50 text-slate-50" type="button">
                     Modifier
                 </a>
-                <a href="suppression_jeu.php?id=<?= $jeux['ID'] ?>" onclick="return confirmBox()" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
+                <a href="suppression_jeu.php?id=<?= $jeux['ID'] ?>" onclick="return confirmBox()" class="bg-lime-500 rounded-md font-bold px-4 py-2 ml-1 border-2 border-slate-50 text-slate-50" type="button">
                     Supprimer
                 </a>
                 <script>
@@ -48,90 +48,100 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
             <?php } ?>
 
-            <!-- Si l'utilisateur n'est pas enregistrer, il ne peut pas mettre le jeu en favoris -->
-            <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) {
-
-                // Retirer le bouton si le jeu est déjà dans les favoris de l'utilisateur
-                // Afficher un bouton retirer de mes favoris à la place
-
-
-                if (isset($favoris[0]['jeu_id']) && intval($favoris[0]['jeu_id']) === $id) { ?>
-                    <div class="text-right py-6">
-                        <a href="favoris.php" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
-                            <i class="fas fa-heart text-slate-50"></i> <span class="text-slate-50">Ce jeu est déjà dans vos favoris</span>
-                        </a>
+            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2) { ?>
+                <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 2) { ?>
+                    <div class="text-right pt-4">
+                    <?php } ?>
+                    <a href="Modification_budget.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 ml-1 mr-6 border-2 border-slate-50 text-slate-50 text-right" type="button">
+                        Modifier le budget
+                    </a>
                     </div>
-                <?php } else { ?>
-                    <div class="text-right py-6">
-                        <a href="ajouter_favoris.php?id=<?= $id ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
-                            <i class="fa-regular fa-heart"></i> Ajouter aux favoris
-                        </a>
-                    </div>
+                <?php } ?>
 
-            <?php }
-            } ?>
+                <!-- Si l'utilisateur n'est pas enregistrer, il ne peut pas mettre le jeu en favoris -->
+                <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) {
+
+                    // Retirer le bouton si le jeu est déjà dans les favoris de l'utilisateur
+                    // Afficher un bouton retirer de mes favoris à la place
 
 
-            <div class="md:flex">
-                <div class="w-full h-full md:w-1/2">
-                    <div class="pt-12">
-                        <h3 class="text-3xl text-center mb-2 font-bold uppercase lg:text-5xl text-slate-50"><?= $jeux['Titre'] ?></h3>
-                        <div class="mt-8 text-center">
-                            <label class="text-1xl text-slate-50 ">
-                                Developper par GameSoft
-                            </label>
-                            <div class="mx-auto w-1/3 px-auto border-2 rounded border-lime-500 my-2">
-                                <p class="justify-center px-2 py-4 text-slate-50 text-2xl font-bold"><?= $statut['Statut'] ?> </p>
-                            </div>
-
+                    if (isset($favoris[0]['jeu_id']) && intval($favoris[0]['jeu_id']) === $id) { ?>
+                        <div class="text-right py-6">
+                            <a href="favoris.php" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                                <i class="fas fa-heart text-slate-50"></i> <span class="text-slate-50">Ce jeu est déjà dans vos favoris</span>
+                            </a>
                         </div>
-                    </div>
-                    <!-- Début image Galery -->
+                    <?php } else { ?>
+                        <div class="text-right py-6">
+                            <a href="ajouter_favoris.php?id=<?= $id ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                                <i class="fa-regular fa-heart"></i> Ajouter aux favoris
+                            </a>
+                        </div>
 
-                    <div id="default-carousel" class="relative py-8" data-carousel="static">
-                        <!-- Carousel wrapper -->
-                        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                            <?php
-                            foreach ($image as $img) { ?>
-                                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($img['nom_image']) ?>">
+                <?php }
+                } ?>
+
+
+                <div class="md:flex">
+                    <div class="w-full h-full md:w-1/2">
+                        <div class="pt-12">
+                            <h3 class="text-3xl text-center mb-2 font-bold uppercase lg:text-5xl text-slate-50"><?= $jeux['Titre'] ?></h3>
+                            <div class="mt-8 text-center">
+                                <label class="text-1xl text-slate-50 ">
+                                    Developper par GameSoft
+                                </label>
+                                <div class="mx-auto w-1/3 px-auto border-2 rounded border-lime-500 my-2">
+                                    <p class="justify-center px-2 py-4 text-slate-50 text-2xl font-bold"><?= $statut['Statut'] ?> </p>
                                 </div>
-                            <?php } ?>
 
-                            <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                    </svg>
-                                    <span class="sr-only">Previous</span>
-                                </span>
-                            </button>
-                            <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                    <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                    <span class="sr-only">Next</span>
-                                </span>
-                            </button>
+                            </div>
                         </div>
+                        <!-- Début image Galery -->
+
+                        <div id="default-carousel" class="relative py-8" data-carousel="static">
+                            <!-- Carousel wrapper -->
+                            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                <?php
+                                foreach ($image as $img) { ?>
+                                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="<?= getGameImg($img['nom_image']) ?>">
+                                    </div>
+                                <?php } ?>
+
+                                <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                        <span class="sr-only">Previous</span>
+                                    </span>
+                                </button>
+                                <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                        <span class="sr-only">Next</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <!-- Fin image Galery -->
+
+
+
+
+
                     </div>
 
+                    <!-- Partie Droite -->
 
-                    <!-- Fin image Galery -->
-
-
-
-
-
+                    <div class="w-full max-w-lg mx-auto mt-5 md:ml-auto md:mt-0 md:w-1/2 lg:py-12" style="height: 790px;">
+                        <img class="h-full w-full content-center rounded-md object-cover max-w-lg mx-auto object-cover" src="<?= getGameImg($jeux['image']); ?>" alt="<?= $jeux['Titre'] ?>">
+                    </div>
                 </div>
-
-                <!-- Partie Droite -->
-
-                <div class="w-full max-w-lg mx-auto mt-5 md:ml-auto md:mt-0 md:w-1/2 lg:py-12" style="height: 790px;">
-                    <img class="h-full w-full content-center rounded-md object-cover max-w-lg mx-auto object-cover" src="<?= getGameImg($jeux['image']); ?>" alt="<?= $jeux['Titre'] ?>">
-                </div>
-            </div>
 
             </div>
 </main>

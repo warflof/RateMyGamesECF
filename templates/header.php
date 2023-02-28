@@ -56,7 +56,7 @@ if ($_SESSION == null) {
           </a>
         </li>
         <li class="">
-          <a href="#" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+          <a href="news.php" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
             Actualités
           </a>
         </li>
@@ -80,6 +80,9 @@ if ($_SESSION == null) {
           </div>
           </p>
         </li>
+
+        <!-- Accès aux admins, producer et CM -->
+
         <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5) { ?>
           <li class="">
             <p id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" class="text-center inline-flex block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-slate-50 md:hover:bg-transparent md:hover:text-slate-50 md:p-0">
@@ -88,41 +91,75 @@ if ($_SESSION == null) {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </p>
-            <!-- Dropdown menu -->
-            <div id="dropdownHover" class="z10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+          </li>
+          <!-- Dropdown menu -->
+        <?php } ?>
+        <!-- Accès uniquement aux admins -->
+
+        <div id="dropdownHover" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
+              <li>
+                <a href="dashboard.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  Modification jeux
+                </a>
+              </li>
+            <?php } ?>
+
+            <!-- Accès uniquement aux admins et aux producteurs -->
+
+            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role']) == 2)) { ?>
+              <li>
+                <a href="dashboard_producer.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  Modifier le Budget
+                </a>
+              </li>
+            <?php } ?>
+
+            <!-- Accès uniquement aux admins -->
+
+            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
+              <li>
+                <a href="gestion_utilisateur.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  Gestion des utilisateurs
+                </a>
+              </li>
+            <?php } ?>
+
+            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
+              <li>
+                <a href="ajout_modification_jeu.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  Ajouter un Jeu
+                </a>
+              </li>
+              <!-- Accès uniquement aux admins et aux CM -->
+
+              <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 5) { ?>
                 <li>
-                  <a href="dashboard.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    Modification jeux
+                  <a href="dashboard_CM.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    Création/Modification Actualités
                   </a>
                 </li>
-                <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
-                  <li>
-                    <a href="gestion_utilisateur.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                      Gestion des utilisateurs
-                    </a>
-                  </li>
-                <?php } ?>
+              <?php } ?>
+            <?php }
+            ?>
 
-                <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
-                  <li>
-                    <a href="ajout_modification_jeu.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ajouter un Jeu</a>
-                  </li>
-              <?php }
-              } ?>
-
-          </li>
-          <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) { ?>
-            <li>
-              <a href="favoris.php" class="block py-2 pl-3 pr-4 text-slate-50 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-lime-500 md:p-0 dark:text-slate-50 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                Mes favoris
-              </a>
             </li>
-      
+          </ul>
+        </div>
+        <!-- Accès à tous -->
+
+        <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) { ?>
+          <li>
+            <a href="favoris.php" class="text-slate-50">
+              Mes favoris
+            </a>
+          </li>
+      </ul>
     </div>
   <?php } ?>
-  
-  
+
+
 
   <!-- ####################################### CONNEXION MENU ####################################### -->
 

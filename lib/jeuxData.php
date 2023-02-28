@@ -144,6 +144,24 @@ function getGameStyle(PDO $pdo)
     return $style->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getNews(PDO $pdo, int $limit = NULL)
+{
+    $sql = 'SELECT * FROM actualite ORDER BY id_actu DESC';
+
+    if ($limit) {
+        $sql .= ' LIMIT :limit';
+    }
+
+    $query = $pdo->prepare($sql);
+
+    if ($limit) {
+        $query->bindParam(':limit', $limit, PDO::PARAM_INT);
+    }
+
+    $query->execute();
+    return $query->fetchAll();
+}
+
 // Affiche l'image par défaut si aucune image n'est sélectionnée
 
 function getGameImg(string|null $image)
@@ -184,8 +202,8 @@ $insertStyle = "INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(
 function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NULL $Image, int $style, int $support, int $statut, int $moteur, int $nombre_joueur, string $dateEstimeeFin, int $budget)
 {
 
-    $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, image, jouable, id_moteur, date_estimee_fin, budget) 
-    VALUES (NULL, :Titre, :Description, :image, :jouable, :id_moteur, :date_estimee_fin, :budget);
+    $query = $pdo->prepare("INSERT INTO jeu (id, Titre, Description, image, jouable, id_moteur, date_creation, date_estimee_fin, budget) 
+    VALUES (NULL, :Titre, :Description, :image, :jouable, :id_moteur, :date_creation, :date_estimee_fin, :budget);
     INSERT INTO jeu_nombre_joueur (jeu_id, nombre_joueur_id) VALUES (LAST_INSERT_ID(), :id_nombre_joueur);
     INSERT INTO jeu_support (jeu_id, support_id) VALUES (LAST_INSERT_ID(), :support);
     INSERT INTO jeu_style (jeu_id, style_id) VALUES (LAST_INSERT_ID(), :style);   
@@ -207,12 +225,24 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
         $query->bindParam(':support', $support, PDO::PARAM_INT);
         $query->bindParam(':jouable', $statut, PDO::PARAM_INT);
         $query->bindParam(':id_moteur', $moteur, PDO::PARAM_INT);
+        $query->bindParam(':date_creation', date('Y-m-d H:i:s'), PDO::PARAM_STR);
         $query->bindParam(':id_nombre_joueur', $nombre_joueur, PDO::PARAM_INT);
         $query->bindParam(':date_estimee_fin', $dateEstimeeFin, PDO::PARAM_STR);
         $query->bindParam(':budget', $budget, PDO::PARAM_INT);
         return $query->execute();
     }
 };
+
+function saveNews(PDO $pdo, string $titre, string $Texte, string $image)
+{
+    $dateActuelle = date('Y-m-d H:i:s');
+    $query = $pdo->prepare("INSERT INTO actualite (Titre, Texte, image, date_creation) VALUES (:titre, :Texte, :image, :date_creation)");
+    $query->bindParam(':titre', $titre, PDO::PARAM_STR);
+    $query->bindParam(':Texte', $Texte, PDO::PARAM_STR);
+    $query->bindParam(':image', $image, PDO::PARAM_STR);
+    $query->bindParam(':date_creation', $dateActuelle, PDO::PARAM_STR);
+    return $query->execute();
+}
 
 
 
@@ -224,7 +254,7 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
 
 function updateGame(PDO $pdo, int $id, string $Titre, string $Description, int $statut, int $moteur, string $dateEstimeeFin, int $budget)
 {
-    $query = $pdo->prepare("UPDATE jeu SET Titre = :Titre, Description = :Description, jouable = :jouable, id_moteur = :id_moteur, date_estimee_fin = :date_estimee_fin, budget = :budget WHERE id = :id;");
+    $query = $pdo->prepare("UPDATE jeu SET Titre = :Titre, Description = :Description, jouable = :jouable, id_moteur = :id_moteur, date_estimee_fin = :date_estimee_fin, budget = :budget, date_last_maj = :date_last_maj WHERE id = :id;");
     $query->bindParam(':Titre', $Titre, PDO::PARAM_STR);
     $query->bindParam(':Description', $Description, PDO::PARAM_STR);
     $query->bindParam(':jouable', $statut, PDO::PARAM_INT);
@@ -232,6 +262,7 @@ function updateGame(PDO $pdo, int $id, string $Titre, string $Description, int $
     $query->bindParam(':date_estimee_fin', $dateEstimeeFin, PDO::PARAM_STR);
     $query->bindParam(':budget', $budget, PDO::PARAM_INT);
     $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->bindParam(':date_last_maj', date('Y-m-d H:i:s'), PDO::PARAM_STR);
     return $query->execute();
 };
 
@@ -326,6 +357,17 @@ function updateRole(PDO $pdo, string $email, int $role)
     $query = $pdo->prepare("UPDATE utilisateur SET role_id = :role WHERE email = :email");
     $query->bindParam(':role', $role, PDO::PARAM_INT);
     $query->bindParam(':email', $email, PDO::PARAM_STR);
+    return $query->execute();
+};
+
+function updateBudget(PDO $pdo, int $id, int $budget, string $dateEstimeeFin, int $jouable)
+{
+    $query = $pdo->prepare("UPDATE jeu SET budget = :budget, date_estimee_fin = :date_estimee_fin , jouable = :jouable, date_last_maj = :date_last_maj WHERE id = :id");
+    $query->bindParam(':budget', $budget, PDO::PARAM_INT);
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->bindParam(':date_estimee_fin', $dateEstimeeFin, PDO::PARAM_STR);
+    $query->bindParam(':jouable', $jouable, PDO::PARAM_INT);
+    $query->bindParam(':date_last_maj', date('Y-m-d H:i:s'), PDO::PARAM_STR);
     return $query->execute();
 };
 
