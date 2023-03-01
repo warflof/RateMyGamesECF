@@ -73,7 +73,6 @@ if (isset($_POST['modifyGame'])) {
         $res = updateGame(
             $pdo,
             $id,
-            $_POST['Titre'],
             $_POST['Description'],
             $_POST['jouable'],
             $_POST['id_moteur'],
@@ -100,18 +99,7 @@ if (isset($_POST['modifyGame'])) {
 
     <form method="POST" enctype="multipart/form-data" action="Modification_jeu.php?id=<?= $jeux['ID'] ?>">
 
-        <!-- Titre -->
-
-        <div class="py-3 px-8 mx-8">
-            <label for="Titre"><span class="text-slate-50">Nom du jeu: </span></label>
-            <input class="w-full rounded" type="text" name="Titre" id="Titre" value="<?= $jeux['Titre'] ?>">
-            <?php
-            if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST['Titre'])) {
-                echo '<div class="text-red-500">Veuillez renseigner un Titre</div>';
-            }
-            ?>
-        </div>
-
+        
         <!-- Description -->
 
         <div class="py-3 px-8 mx-8">
@@ -125,14 +113,9 @@ if (isset($_POST['modifyGame'])) {
         </div>
 
         <!-- Style -->
-
+        
         <div class="py-3 px-8 mx-8">
             <label for="style"><span class="text-slate-50">Style: </span></label>
-
-            <!-- foreach($jeux['ID']) {
-                echo '<select></select>';
-            } -->
-
             <select class="w-full rounded" type="input" name="style" id="style">
                 <?php
                 if (empty($styles[0]['style'])) {
@@ -295,12 +278,12 @@ if (isset($_POST['modifyGame'])) {
             <input type="file" name="file" id="file" class="text-slate-50">
             <div class="flex items-center">
                 <?php
-                if (!empty($jeux['image'])) {
-                    echo '<img src="' . _JEUX_IMG_PATH . $jeux['image'] . '" alt="image du jeu" class="w-1/6 ml-0 py-4 object-cover">
-                    <a href="suppression_imageCover.php?id=' . $jeux['ID'] . '&nom_image=' . $jeux['image'] . '" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                if (!empty($jeux['image'])) { ?>
+                    <img src="<?= _JEUX_IMG_PATH . $jeux['image'] ?>" alt="image du jeu" class="w-1/6 ml-0 py-4 object-cover">
+                    <a href="suppression_imageCover.php?id=<?= $jeux['ID'] ?>'&nom_image=<?= $jeux['image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
                     Supprimer l\'image de couverture
                     </a>';
-                }
+                <?php }
                 ?>
 
 

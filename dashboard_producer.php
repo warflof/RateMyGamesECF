@@ -3,8 +3,7 @@ require('templates/header.php');
 require_once('lib/jeuxData.php');
 
 $jeux = getGames($pdo);
-
-
+$totalCost[] = getGamesTotalCost($pdo);
 
 
 ?>
@@ -58,6 +57,13 @@ $jeux = getGames($pdo);
             }
             ?>
         </tbody>
+        <tfoot>
+            <tr class="border-2 border-slate-50">
+                <td colspan="5" class="text-2xl text-slate-50">
+                    <p class="text-right mx-2 py-2">Cout total des jeux en cours de développement: <?= $totalCost[0]['total'] ?> € </p>
+                </td>
+            </tr>
+        </tfoot>
 
 
 

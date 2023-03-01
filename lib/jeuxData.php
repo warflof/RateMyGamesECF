@@ -162,6 +162,14 @@ function getNews(PDO $pdo, int $limit = NULL)
     return $query->fetchAll();
 }
 
+function getNewsByID(PDO $pdo, int $id)
+{
+    $query = $pdo->prepare("SELECT * FROM actualite WHERE id_actu = :id");
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetch();
+}
+
 // Affiche l'image par défaut si aucune image n'est sélectionnée
 
 function getGameImg(string|null $image)
@@ -193,6 +201,13 @@ function getFavoris(PDO $pdo, string $mail)
     $query->bindParam(':email', $mail);
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
+};
+
+function getGamesTotalCost(PDO $pdo)
+{
+    $query = $pdo->prepare("SELECT SUM(budget) AS total FROM jeu WHERE jouable = 1");
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC);
 };
 
 
@@ -252,10 +267,9 @@ function saveNews(PDO $pdo, string $titre, string $Texte, string $image)
 
 // FUNCTION UPDATE TABLE 
 
-function updateGame(PDO $pdo, int $id, string $Titre, string $Description, int $statut, int $moteur, string $dateEstimeeFin, int $budget)
+function updateGame(PDO $pdo, int $id, string $Description, int $statut, int $moteur, string $dateEstimeeFin, int $budget)
 {
-    $query = $pdo->prepare("UPDATE jeu SET Titre = :Titre, Description = :Description, jouable = :jouable, id_moteur = :id_moteur, date_estimee_fin = :date_estimee_fin, budget = :budget, date_last_maj = :date_last_maj WHERE id = :id;");
-    $query->bindParam(':Titre', $Titre, PDO::PARAM_STR);
+    $query = $pdo->prepare("UPDATE jeu SET Description = :Description, jouable = :jouable, id_moteur = :id_moteur, date_estimee_fin = :date_estimee_fin, budget = :budget, date_last_maj = :date_last_maj WHERE id = :id;");
     $query->bindParam(':Description', $Description, PDO::PARAM_STR);
     $query->bindParam(':jouable', $statut, PDO::PARAM_INT);
     $query->bindParam(':id_moteur', $moteur, PDO::PARAM_INT);
@@ -288,20 +302,17 @@ function updateGameSupport(PDO $pdo, int $id, int $support)
 
 function updateGameStyle(PDO $pdo, int $id, int $style)
 {
-    $query = $pdo->prepare("SELECT style_id FROM jeu_style WHERE jeu_id = :id");
-    $query->bindParam(':id', $id, PDO::PARAM_INT);
-    $query->execute();
-
-    $styles = $query->fetchAll(PDO::FETCH_COLUMN);
-
-    if (count($styles) < 3 || in_array($style, $styles)) {
+    if (empty($style)) {
         $query = $pdo->prepare("INSERT INTO jeu_style (jeu_id, style_id) VALUES (:id, :style)
                                 ON DUPLICATE KEY UPDATE style_id = :style");
         $query->bindParam(':style', $style, PDO::PARAM_INT);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         return $query->execute();
     } else {
-        return false;
+        $query = $pdo->prepare("UPDATE jeu_style SET style_id = :style WHERE jeu_id = :id");
+        $query->bindParam(':style', $style, PDO::PARAM_INT);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        return $query->execute();
     }
 }
 
@@ -371,6 +382,27 @@ function updateBudget(PDO $pdo, int $id, int $budget, string $dateEstimeeFin, in
     return $query->execute();
 };
 
+function updateNews(PDO $pdo, int $id, string $titre, string $contenu)
+{
+    $query = $pdo->prepare("UPDATE actualite SET Titre = :Titre, Texte = :Texte, date_creation = :date_creation WHERE id_actu = :id");
+    $query->bindParam(':Titre', $titre, PDO::PARAM_STR);
+    $query->bindParam(':Texte', $contenu, PDO::PARAM_STR);
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->bindParam(':date_creation', date('Y-m-d H:i:s'), PDO::PARAM_STR);
+    return $query->execute();
+};
+
+function updateNewsImage(PDO $pdo, int $id, string|NULL $image)
+{
+    if (!empty($image)) {
+        $query = $pdo->prepare("UPDATE actualite SET image = :image WHERE id_actu = :id");
+        $query->bindParam(':image', $image, PDO::PARAM_STR);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        return $query->execute();
+    } else {
+        return false;
+    }
+};
 
 
 

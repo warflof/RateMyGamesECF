@@ -13,6 +13,9 @@ $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteur = addGameMoteur($pdo, $jeux);
 $image = addGameImg($pdo, $jeux);
 $users = $_SESSION['user']['email'];
+if(empty($users)){
+    $users = NULL;
+};
 
 
 $favorisQuery = $pdo->prepare('SELECT * FROM utilisateur_jeu WHERE jeu_id = :id AND utilisateur_email = :mail');
@@ -151,15 +154,6 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <div class="bg-gray-700 w-full h-48 flex flex-row border-y-2 border-lime-500 py-2">
-    <!-- Mettre dans cette div : 
-            - Supports
-            - Style
-            - Score
-            - Release Date || Date de créa
-            - Dernière Maj
-            - Moteur : Unreal || Unity || etc.
-            - nb de joueurs
-    -->
     <div class="basis-1/6"></div>
     <div class="basis-1/6 py-4 px-2 border-r border-lime-500  ">
         <div class="text-slate-50">
@@ -209,7 +203,7 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="basis-2/6 border-r border-lime-500">
         <div class="py-12">
-            <!--  -->
+            <!-- Score  -->
             <?php
             if (empty($jeux['score'])) {
                 echo '<p class="text-slate-50 text-2xl font-bold text-center flex flex-wrap justify-around">Ce jeu n\'a pas encore reçu de note</p>';

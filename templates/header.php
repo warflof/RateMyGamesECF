@@ -132,17 +132,23 @@ if ($_SESSION == null) {
                   Ajouter un Jeu
                 </a>
               </li>
+              <?php }
+            ?>
               <!-- Accès uniquement aux admins et aux CM -->
 
               <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 5) { ?>
                 <li>
                   <a href="dashboard_CM.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    Création/Modification Actualités
+                    Création Actualités
+                  </a>
+                </li>
+                <li>
+                  <a href="DashboardModifNews.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    Modification Actualités
                   </a>
                 </li>
               <?php } ?>
-            <?php }
-            ?>
+            
 
             </li>
           </ul>

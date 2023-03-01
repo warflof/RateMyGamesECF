@@ -22,7 +22,7 @@ $news = getnews($pdo);
 
     <h2 class="text-3xl font-bold mb-12 text-center">Dernières actualités de GameSoft</h2>
 <?php foreach ($news as $new) { ?>
-    <a href="">
+    <a href="article.php?id=<?=$new['id_actu'] ?>">
     <div class="grid md:grid-cols-2 gap-x-6 xl:gap-x-12 items-center mb-12">
       <div class="mb-6 md:mb-0">
         <div
