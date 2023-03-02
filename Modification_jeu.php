@@ -17,14 +17,15 @@ $styles = addGameStyle($pdo, $jeux);
 $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteurs = addGameMoteur($pdo, $jeux);
 $images = addGameImg($pdo, $jeux);
+$userID = intval($_SESSION['id']['id']);
+$last_maj = getLastMaj($pdo, $id);
 
-var_dump((intval($_SESSION['role']['role'])));
+
+
 
 if (isset($_POST['modifyGame'])) {
 
-    // if (empty($_POST['Titre']) || empty($_POST['Description']) || empty($_POST['jouable']) || empty($_POST['id_moteur']) || empty($_POST['date_estimee_fin']) || empty($_POST['budget']) || empty($_POST['support']) || empty($_POST['style']) || empty($_POST['nb_joueurs']) || empty($_POST['statut'])) {
-    //     echo $errors[] = '<div class="px-64 mx-64 py-8"><div class="px-32 mx-32 py-8 text-slate-50 text-center text-2xl border-2 border-red-500 rounded-md">Veuillez remplir tous les champs</div></div>';
-    // } else {
+    
 
         $fileName = NULL;
 
@@ -66,8 +67,11 @@ if (isset($_POST['modifyGame'])) {
                     echo $errors[] = 'Le fichier ' . $_FILES['imageAdditional']['name'][$key] . ' n\'est pas une image';
                 }
             }
-        };
-
+        
+    };
+    // if (empty($_POST['Titre']) || empty($_POST['Description']) || empty($_POST['jouable']) || empty($_POST['id_moteur']) || empty($_POST['date_estimee_fin']) || empty($_POST['budget']) || empty($_POST['support']) || empty($_POST['style']) || empty($_POST['nb_joueurs']) || empty($_POST['statut'])|| empty($fileName)) {
+    //     echo $errors[] = '<div class="px-64 mx-64 py-8"><div class="px-32 mx-32 py-8 text-slate-50 text-center text-2xl border-2 border-red-500 rounded-md">Veuillez remplir tous les champs</div></div>';
+    // } else {
       
 
         $res = updateGame(
@@ -80,6 +84,7 @@ if (isset($_POST['modifyGame'])) {
             $_POST['budget'],
             
         );
+        $res1 = updateLastMaj($pdo, $id, $userID, $_POST['commentaire']);
         $res2 = updateGameSupport($pdo, $id, $_POST['support']);
         $res3 = updateGameStyle($pdo, $id, $_POST['style']);
         $res4 = updateGameNombreJoueur($pdo, $id, $_POST['id_nombre_joueur']);
@@ -308,16 +313,36 @@ if (isset($_POST['modifyGame'])) {
 
         </div>
 
-        <hr class="my-8">
+        <hr>
+
+
+        <div class="py-8 text-center">
+            <p class="text-slate-50 pb-4" >Justification de la modification de budget:</p>
+            <textarea class="w-2/3 h-64 rounded-md" placeholder="Veuillez justifier la modification du budget"type="textarea" name="commentaire" id="commentaire"></textarea>
+        </div>
+
+        <?php if($jeux['date_last_maj'] == null) { ?>
+            <p class="text-slate-50 text-xl text-center pt-6">Le jeu n'a pas encore reçu de modification</p>
+        <?php } else { ?>
+            <?php foreach ($last_maj as $key => $maj) { ?>
+        <div>
+            <p class="text-slate-50 text-xl text-center pt-6">Dernière date de modification: <?= $maj['last_maj'] ?> par <span class="text-lime-500"><?= $maj['pseudo']?></span></p>
+            <?php if($maj['commentaire'] != NULL){ ?>
+            <p class="text-slate-50 text-center"><span class="text-lime-500 underline">Commentaire:</span> <?=$maj['commentaire'] ?></p>
+            <?php } ?>
+        </div>
+        <?php } }; ?>
 
 
         <!-- Bouton d'envoi du formulaire -->
 
-        <div class="mx-auto text-center">
+        <div class="mx-auto text-center py-8">
             <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyGame" action="Jeu.php?id=<?= $id ?>">
         </div>
 
     </form>
+
+    
 
 </div>
 

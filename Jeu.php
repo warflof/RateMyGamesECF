@@ -12,9 +12,9 @@ $styles = addGameStyle($pdo, $jeux);
 $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteur = addGameMoteur($pdo, $jeux);
 $image = addGameImg($pdo, $jeux);
-$users = $_SESSION['user']['email'];
-if(empty($users)){
-    $users = NULL;
+
+if(isset($_SESSION['user']['email'])){
+    $users = $_SESSION['user']['email'];
 };
 
 

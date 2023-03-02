@@ -12,6 +12,8 @@ $id = (int)$_GET['id'];
 
 $jeux = getGamesByID($pdo, $id);
 $statuts = addGameStatut($pdo, $jeux);
+$last_maj = getLastMaj($pdo, $id);
+$userID = intval($_SESSION['id']['id']);
 
 
 if (isset($_POST['modifyGame'])) {
@@ -27,6 +29,12 @@ if (isset($_POST['modifyGame'])) {
             $_POST['date_estimee_fin'],
             $_POST['jouable']
         );
+        $res1 = updateLastMaj(
+            $pdo,
+            $id,
+            $userID,
+            $_POST['commentaire']
+        );
 
         echo '<script>window.location.href = "Jeu.php?id=' . $id . '";</script>';
     }
@@ -38,7 +46,7 @@ if (isset($_POST['modifyGame'])) {
 
     <h1 class="text-5xl text-slate-50 text-center py-6">Modification de <br /><?= $jeux['Titre'] ?></h1>
     <div class="container flex justify-around py-2">
-        <img class="object-contain object-center h-48 w-48" src="<?= _JEUX_IMG_PATH .$jeux['image'] ?>" alt="">
+        <img class="object-contain object-center h-48 w-48" src="<?= getGameImg($jeux['image']) ?>" alt="">
     </div>
         <form method="POST" enctype="multipart/form-data" action="">
         <!-- Budget -->
@@ -89,18 +97,27 @@ if (isset($_POST['modifyGame'])) {
             ?>
         </div>
 
+        <div class="py-8">
+            <p class="text-slate-50 pb-4" >Justification de la modification de budget:</p>
+            <textarea class="w-2/3 h-64 rounded-md" placeholder="Veuillez justifier la modification du budget"type="textarea" name="commentaire" id="commentaire"></textarea>
+        </div>
+
 
         <hr>
 
 
 
-        <?php if($jeux['date_last_maj'] == null) : ?>
+        <?php if($jeux['date_last_maj'] == null) { ?>
             <p class="text-slate-50 text-xl text-center pt-6">Le jeu n'a pas encore reçu de modification</p>
-        <?php endif; ?>
+        <?php } else { ?>
+            <?php foreach ($last_maj as $key => $maj) { ?>
         <div>
-            <p class="text-slate-50 text-xl text-center pt-6">Dernière date de modification: <?= $jeux['date_last_maj'] ?></p>
+            <p class="text-slate-50 text-xl text-center pt-6">Dernière date de modification: <?= $maj['last_maj'] ?> par <span class="text-lime-500"><?= $maj['pseudo']?></span></p>
+            <?php if($maj['commentaire'] != NULL){ ?>
+            <p class="text-slate-50"><span class="text-lime-500 underline">Commentaire:</span> <?=$maj['commentaire'] ?></p>
+            <?php } ?>
         </div>
-
+        <?php } }; ?>
 
 
 

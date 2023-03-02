@@ -1,9 +1,9 @@
 <?php
 
-function addUser(PDO $pdo, string $email, string $password): bool
+function addUser(PDO $pdo, string $email, string $password, string $pseudo): bool
 {
 
-    $sql = "INSERT INTO utilisateur (email, password, role_id) VALUES (:email, :password, :role_id)";
+    $sql = "INSERT INTO utilisateur (email, password, role_id, pseudo) VALUES (:email, :password, :role_id, :pseudo)";
 
     $query = $pdo->prepare($sql);
 
@@ -12,6 +12,8 @@ function addUser(PDO $pdo, string $email, string $password): bool
     $query->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
 
     $query->bindValue(':role_id', 6, PDO::PARAM_INT);
+
+    $query->bindValue(':pseudo', $pseudo, PDO::PARAM_STR);
 
     return $query->execute();
 };

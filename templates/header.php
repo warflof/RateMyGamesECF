@@ -126,7 +126,7 @@ if ($_SESSION == null) {
               </li>
             <?php } ?>
 
-            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
+            <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2) { ?>
               <li>
                 <a href="ajout_modification_jeu.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                   Ajouter un Jeu

@@ -19,6 +19,7 @@ if (isset($_POST['loginUser'])) {
     if ($users) {
         $_SESSION['user'] = ['email' => $users['email']];
         $_SESSION['role'] = ['role' => $users['role_id']];
+        $_SESSION['id'] = ['id' => $users['user_id']];
         $messages[] = 'Vous êtes connecté';
         ?>
         <script>

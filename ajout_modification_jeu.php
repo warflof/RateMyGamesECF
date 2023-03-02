@@ -11,7 +11,7 @@ require_once('lib/jeuxData.php');
 require_once('lib/tools.php');
 
 
-
+$userId = $_SESSION['id']['id'];
 
 
 
@@ -30,7 +30,10 @@ if (isset($_POST['saveGame'])) {
         } else {
             echo '<div class="w-96 mx-auto py-4"><div class="text-slate-50 text-center text-2xl py-8 border-2 border-solid rounded-md">Le fichier n\'est pas une image</div></div>';
         }
-    }
+    };
+    // if (empty($_POST['Titre']) || empty($_POST['Description']) || empty($_POST['jouable']) || empty($_POST['id_moteur']) || empty($_POST['date_estimee_fin']) || empty($_POST['budget']) || empty($_POST['support']) || empty($_POST['style']) || empty($_POST['nb_joueurs']) || empty($_POST['statut'])|| empty($fileName)) {
+    //     echo $errors[] = '<div class="px-64 mx-64 py-8"><div class="px-32 mx-32 py-8 text-slate-50 text-center text-2xl border-2 border-red-500 rounded-md">Veuillez remplir tous les champs</div></div>';
+    // } else {
 
 
     $res = saveTableGames(
@@ -44,8 +47,12 @@ if (isset($_POST['saveGame'])) {
         $_POST['moteur'],
         $_POST['nombre_joueurs'],
         $_POST['date_estimee_fin'],
-        $_POST['budget']
+        $_POST['budget'],
+        $userId
     );
+    
+    $id = $pdo->query('SELECT LAST_INSERT_ID()')->fetchColumn();
+    echo '<script>location.href = "Jeu.php?id='.$id.'";</script>';
 
 
     var_dump($_POST);
