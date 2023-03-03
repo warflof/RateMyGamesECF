@@ -15,7 +15,6 @@ $favorisQuery = $pdo->prepare('SELECT * FROM utilisateur_jeu WHERE utilisateur_e
 $favorisQuery->bindParam(':mail', $users, PDO::PARAM_STR);
 $favorisQuery->execute();
 $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
-var_dump($favoris[0]['jeu_id']);
 ?>
 
 <!-- ########### FIRST SECTION ###########-->
