@@ -1,6 +1,6 @@
 <?php
-require_once 'lib/pdo.php';
-require_once 'lib/config.php'; // récupère les chemins des images
+require_once 'pdo.php';
+require_once 'config.php'; // récupère les chemins des images
 
 // Vérifie que le paramètre ID a été transmis via GET
 if (isset($_GET['id'])) {
@@ -36,7 +36,7 @@ if (isset($_GET['id'])) {
 
     // Redirige l'utilisateur vers la page précédente
     
-        header('Location: dashboard.php');
+        header('Location: ../dashboard.php');
         exit();
     }
  else {

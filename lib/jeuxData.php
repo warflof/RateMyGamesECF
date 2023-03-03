@@ -256,6 +256,7 @@ function saveTableGames(PDO $pdo, string $Titre, string $Description, string|NUL
     }
 };
 
+
 function saveNews(PDO $pdo, string $titre, string $Texte, string $image)
 {
     $dateActuelle = date('Y-m-d H:i:s');

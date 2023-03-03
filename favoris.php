@@ -45,7 +45,7 @@ if (getFavoris($pdo, $_SESSION['user']['email']) == null) {
                                             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                         </svg>
                                     </a>
-                                    <a href="suppression_favoris.php?id=<?= $jeuId ?>&mail=<?=$favoris['utilisateur_email']?>" class="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800">
+                                    <a href="lib/suppression_favoris.php?id=<?= $jeuId ?>&mail=<?=$favoris['utilisateur_email']?>" class="inline-flex items-center px-3 py-2 my-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800">
                                         Retirer des favoris
                                         <i class="fa-solid fa-circle-xmark ml-2"></i>
                                     </a>

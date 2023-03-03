@@ -24,8 +24,6 @@ if ($_SESSION == null) {
   <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-  <script src="tailwind.js"></script>
   <script src="https://kit.fontawesome.com/f1835f8fb9.js" crossorigin="anonymous"></script>
 
   <title>RateMyGames</title>
@@ -181,7 +179,7 @@ if ($_SESSION == null) {
       <div>
         <p class="text-slate-50 mx-2 rounded-lg py-2 px-2 bg-gray-800">Bonjour <?php echo $_SESSION['user']['email']; ?></p>
       </div>
-      <a href="logout.php">
+      <a href="lib/logout.php">
         <button class="text-slate-50 mx-2 border-2 border-lime-500 rounded-lg py-2 px-2 bg-gray-800">Se déconnecter</button>
       </a>
     <?php } ?>

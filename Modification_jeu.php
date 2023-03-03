@@ -285,7 +285,7 @@ if (isset($_POST['modifyGame'])) {
                 <?php
                 if (!empty($jeux['image'])) { ?>
                     <img src="<?= _JEUX_IMG_PATH . $jeux['image'] ?>" alt="image du jeu" class="w-1/6 ml-0 py-4 object-cover">
-                    <a href="suppression_imageCover.php?id=<?= $jeux['ID'] ?>'&nom_image=<?= $jeux['image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                    <a href="lib/suppression_imageCover.php?id=<?= $jeux['ID'] ?>'&nom_image=<?= $jeux['image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
                     Supprimer l\'image de couverture
                     </a>';
                 <?php }
@@ -306,7 +306,7 @@ if (isset($_POST['modifyGame'])) {
                 <div class="mx-2">
                     <a href="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>"><img src="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>" alt="image du jeu" class="mx-2 max-h-32 object-cover rounded-md"></a>
                     <div class="py-4">
-                        <a href="suppression_imageAdditionnel_jeu.php?id=<?= $jeux['ID'] ?>&image=<?= $image['id'] ?>&nom_image=<?= $image['nom_image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Supprimer l'image</a>
+                        <a href="lib/suppression_imageAdditionnel_jeu.php?id=<?= $jeux['ID'] ?>&image=<?= $image['id'] ?>&nom_image=<?= $image['nom_image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Supprimer l'image</a>
                     </div>
                 </div>
             <?php endforeach; ?>

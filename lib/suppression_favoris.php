@@ -1,5 +1,5 @@
 <?php
-require_once 'lib/pdo.php';
+require_once 'pdo.php';
 
 if (isset($_GET['id']) && isset($_GET['mail'])) {
 
@@ -16,6 +16,6 @@ if (isset($_GET['id']) && isset($_GET['mail'])) {
         $queryRate->bindParam(':jeuId', $id, PDO::PARAM_INT);
         $queryRate->execute();
 
-        header('Location: jeu.php?id=' . $id);
+        header('Location: ../jeu.php?id=' . $id);
     
 }

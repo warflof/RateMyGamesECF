@@ -43,7 +43,7 @@ $jeux = getGames($pdo)
                             Modifier
                         </a>
 
-                        <a href="suppression_jeu.php?id=<?= $jeu['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50">
+                        <a href="lib/suppression_jeu.php?id=<?= $jeu['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50">
                             Supprimer
                         </a>
                     </td>

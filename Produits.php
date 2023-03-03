@@ -4,27 +4,31 @@ require_once('lib/jeuxData.php');
 
 
 $jeux = getGames($pdo);
-if(isset($_SESSION['user']['email'])){
+if (isset($_SESSION['user']['email'])) {
   $users = $_SESSION['user']['email'];
 };
 
-
-
+$styles = getGameStyle($pdo);
+$status = getGameStatut($pdo);
 
 $favorisQuery = $pdo->prepare('SELECT * FROM utilisateur_jeu WHERE utilisateur_email = :mail');
 $favorisQuery->bindParam(':mail', $users, PDO::PARAM_STR);
 $favorisQuery->execute();
 $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="js/Produits.js"></script>
+
 
 <!-- ########### FIRST SECTION ###########-->
-<div class="mx-auto w-full  pb-8">
+<div class="mx-auto w-full">
   <div class="flex flex-row w-full">
 
     <!-- SideBar -->
     <div class="left-0 top-0 basis-1/4 hidden" id="filterSideBar">
-      <aside class="w-128 left-0" aria-label="Sidebar">
-        <div class="px-2 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800">
+      <aside class="w-128 left-0 h-full" aria-label="Sidebar">
+        <div class="px-2 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800 h-full">
 
           <!-- Contenu Modale -->
           <div class="px-6 py-2">
@@ -38,13 +42,42 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
             </div>
 
+            <!-- Formulaire de filtres -->
+
+            <form id="filter-form" >
+              <p class="text-slate-50">Nom: </p>
+              <input type="text" id="filter-input" placeholder="Filtrer les produits..." class="my-2" id="requestName">
+              <p class="text-slate-50">Statut: </p>
+              <select class="mb-4">
+                <option value="" disabled selected>Selectionnez un statut</option>
+                <?php
+                  foreach ($status as $statut) { 
+                    echo '<option value="' . $statut['id_jouable'] . '">' . $statut['Statut'] . '</option>';
+                  }
+                ?>
+              </select>
+              <p class="text-slate-50">Date de fin de création: </p>
+              <input type="date">
+              <div class="my-2">
+                <p class="text-slate-50">Style: </p>
+                <select>
+                <option value="" disabled selected>Selectionnez un style</option>
+
+                  <?php
+                  foreach ($styles as $style) {
+                    echo '<option value="' . $style['id_style'] . '">' . $style['style'] . '</option>';
+                  }
+                  ?>
+                </select>
+              </div>
 
 
-            <form id="filter-form">
-              <input type="text" id="filter-input" placeholder="Filtrer les produits...">
 
-              <button class="bg-slate-50" type="submit">Filtrer</button>
-              <button class="bg-slate-50" type="reset">Réinitialiser</button>
+              <div class="py-2">
+                <button class="bg-slate-50 py-2 px-2 rounded-md mr-2" type="submit">Filtrer</button>
+
+                <button class="bg-slate-50 py-2 px-2 rounded-md" type="reset">Réinitialiser</button>
+              </div>
             </form>
 
 
@@ -72,6 +105,10 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
         Filtres
       </button>
 
+    
+
+    
+
 
 
       <!-- FIRST GROUP -->
@@ -92,18 +129,18 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
               </span>
             </button>
           </div>
+        </div> -
+
+         <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500" id="allGames">
+
+           <!-- ALL GAMES "../js/Produits.js"  -->
+
         </div>
-
-        <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500" id="allGames">
-
-          <!-- ALL GAMES "../js/Produits.js"  -->
-
-        </div>
-      </div>
+     </div> 
 
       <!-- 2ND GROUP -->
 
-      <div>
+      <div class="pb-8">
         <div class="flex flex-row py-6 mt-8">
           <div class="basis-3/4">
             <h2 class="text-lime-500 text-2xl">Tout nos jeux</h2>
@@ -123,40 +160,40 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500 flex" id="allGames">
-  <?php 
-  foreach ($jeux as $jeu) { ?>
-          <div class="flex flex-col border-l-2 border-gray-800 items-center py-2">
-            <!-- <div class="w-32 h-12">
+          <?php
+          foreach ($jeux as $jeu) { ?>
+            <div class="flex flex-col border-l-2 border-gray-800 items-center py-2">
+              <!-- <div class="w-32 h-12">
         <p class="text-slate-50">
             <?= $jeu['Titre'] ?>
         </p>
     </div> -->
-            <a href="jeu.php?id=<?= $jeu['ID'] ?>" class="">
-              <img class="rounded-lg hover:brightness-150 transition duration object-content" src="<?= getGameImg($jeu['image']); ?>" />
-            </a>
-            <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) {
-              foreach ($favoris as $favori) {
-                $favori = $favori['jeu_id'];
-              }
-              if (isset($favori) && $favori == $jeu['ID']) { ?>
-                <div class="text-right py-6">
-                  <a href="favoris.php" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
-                    <i class="fas fa-heart text-slate-50"></i> <span class="text-slate-50">Vous aimez ce jeu</span>
-                  </a>
-                </div>
-              <?php } else { ?>
-                <div class="text-right py-6">
-                  <a href="ajouter_favoris.php?id=<?= $jeu['ID'] ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
-                    <i class="fa-regular fa-heart"></i> Ajouter aux favoris
-                  </a>
-                </div>
+              <a href="jeu.php?id=<?= $jeu['ID'] ?>" class="">
+                <img class="rounded-lg hover:brightness-150 transition duration object-content" src="<?= getGameImg($jeu['image']); ?>" />
+              </a>
+              <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) {
+                foreach ($favoris as $favori) {
+                  $favori = $favori['jeu_id'];
+                }
+                if (isset($favori) && $favori == $jeu['ID']) { ?>
+                  <div class="text-right py-6">
+                    <a href="favoris.php" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                      <i class="fas fa-heart text-slate-50"></i> <span class="text-slate-50">Vous aimez ce jeu</span>
+                    </a>
+                  </div>
+                <?php } else { ?>
+                  <div class="text-right py-6">
+                    <a href="ajouter_favoris.php?id=<?= $jeu['ID'] ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                      <i class="fa-regular fa-heart"></i> Ajouter aux favoris
+                    </a>
+                  </div>
 
-            <?php }
-            } ?>
-          </div>
-        <?php } ?>
+              <?php }
+              } ?>
+            </div>
+          <?php } ?>
         </div>
-        
+
       </div>
 
       <!-- 3RD GROUP -->
@@ -166,7 +203,6 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
 
-<script src="js/Produits.js"></script>
 
 
 <!-- FOOTER -->

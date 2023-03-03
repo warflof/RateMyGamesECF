@@ -1,6 +1,6 @@
 <?php
-require_once 'lib/pdo.php';
-require_once 'lib/config.php'; // récupère les chemins des images
+require_once 'pdo.php';
+require_once 'config.php'; // récupère les chemins des images
 
 // Vérifie que les paramètres ID et image ont été transmis via GET
 if (isset($_GET['id']) && isset($_GET['nom_image'])) {
@@ -10,7 +10,7 @@ if (isset($_GET['id']) && isset($_GET['nom_image'])) {
     $nom_image = htmlspecialchars($_GET['nom_image'], ENT_QUOTES);
 
     // Exécute la requête SQL pour supprimer l'image de la base de données
-    $sql = "UPDATE actualite SET image = NULL WHERE id_actu = ?";
+    $sql = "UPDATE jeu SET image = NULL WHERE ID = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(1, $id);
     $stmt->execute();

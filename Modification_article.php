@@ -127,7 +127,7 @@ if (isset($_POST['modifyGame'])) {
                 <?php
                 if (!empty($news['image'])) {
                     echo '<img src="' . _JEUX_IMG_PATH . $news['image'] . '" alt="image du jeu" class="w-1/6 ml-0 py-4 object-cover">
-                    <a href="suppression_imageArticle.php?id=' . $news['id_actu'] . '&nom_image=' . $news['image'] . '" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                    <a href="lib/suppression_imageArticle.php?id=' . $news['id_actu'] . '&nom_image=' . $news['image'] . '" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
                     Supprimer l\'image de couverture
                     </a>';
                 }

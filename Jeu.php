@@ -36,7 +36,7 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
                 <a href="Modification_jeu.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-1 border-2 border-slate-50 text-slate-50" type="button">
                     Modifier
                 </a>
-                <a href="suppression_jeu.php?id=<?= $jeux['ID'] ?>" onclick="return confirmBox()" class="bg-lime-500 rounded-md font-bold px-4 py-2 ml-1 border-2 border-slate-50 text-slate-50" type="button">
+                <a href="lib/suppression_jeu.php?id=<?= $jeux['ID'] ?>" onclick="return confirmBox()" class="bg-lime-500 rounded-md font-bold px-4 py-2 ml-1 border-2 border-slate-50 text-slate-50" type="button">
                     Supprimer
                 </a>
                 <script>
@@ -76,7 +76,7 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php } else { ?>
                         <div class="text-right py-6">
-                            <a href="ajouter_favoris.php?id=<?= $id ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                            <a href="lib/ajouter_favoris.php?id=<?= $id ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
                                 <i class="fa-regular fa-heart"></i> Ajouter aux favoris
                             </a>
                         </div>
