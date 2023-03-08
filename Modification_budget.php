@@ -42,7 +42,7 @@ if (isset($_POST['modifyGame'])) {
 ?>
 
 
-<div class="container mx-auto px-32 py-6 pt-8 flex flex-col text-center">
+<div class="container md:mx-auto md:px-32 py-6 pt-8 flex flex-col text-center">
 
     <h1 class="text-5xl text-slate-50 text-center py-6">Modification de <br /><?= $jeux['Titre'] ?></h1>
     <div class="container flex justify-around py-2">
@@ -128,7 +128,7 @@ if (isset($_POST['modifyGame'])) {
         <!-- Bouton d'envoi du formulaire -->
 
         <div class="mx-auto text-center">
-            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyGame" action="dashboard_producer.php">
+            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 my-2 rounded" name="modifyGame" action="dashboard_producer.php">
         </div>
 
     </form>

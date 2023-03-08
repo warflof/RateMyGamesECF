@@ -13,7 +13,7 @@ $nbJoueurs = addGameNbJoueur($pdo, $jeux);
 $moteur = addGameMoteur($pdo, $jeux);
 $image = addGameImg($pdo, $jeux);
 
-if(isset($_SESSION['user']['email'])){
+if (isset($_SESSION['user']['email'])) {
     $users = $_SESSION['user']['email'];
 };
 
@@ -26,13 +26,13 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<main class="py-8">
+<main class="md:py-8">
     <div class="container mx-auto px-2">
 
         <!-- Si l'utilisateur n'est pas un admin, il ne peut pas modifier ou supprimer le jeu -->
         <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 1) { ?>
 
-            <div class="text-right">
+            <div class="flex item-center md:text-right">
                 <a href="Modification_jeu.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-1 border-2 border-slate-50 text-slate-50" type="button">
                     Modifier
                 </a>
@@ -55,7 +55,7 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
                 <?php if (isset($_SESSION['role']) && (intval($_SESSION['role']['role'])) == 2) { ?>
                     <div class="text-right pt-4">
                     <?php } ?>
-                    <a href="Modification_budget.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 ml-1 mr-6 border-2 border-slate-50 text-slate-50 text-right" type="button">
+                    <a href="Modification_budget.php?id=<?= $jeux['ID'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 ml-1 mr-6 border-2 border-slate-50 text-slate-50 text-center" type="button">
                         Modifier le budget
                     </a>
                     </div>
@@ -93,14 +93,19 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <label class="text-1xl text-slate-50 ">
                                     Developper par GameSoft
                                 </label>
-                                <div class="mx-auto w-1/3 px-auto border-2 rounded border-lime-500 my-2">
+                                <div class="mx-auto md:w-1/3 px-auto border-2 rounded border-lime-500 my-2">
                                     <p class="justify-center px-2 py-4 text-slate-50 text-2xl font-bold"><?= $statut['Statut'] ?> </p>
                                 </div>
 
                             </div>
                         </div>
                         <!-- Début image Galery -->
-
+                        <?php
+                        if(empty($image)){ ?>
+                        <div class="text-center py-6">
+                            <p class="text-slate-50">Le jeu ne contient pas encore d'images</p>
+                        </div>
+                    <?php } else {?>
                         <div id="default-carousel" class="relative py-8" data-carousel="static">
                             <!-- Carousel wrapper -->
                             <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
@@ -129,7 +134,7 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
                                 </button>
                             </div>
                         </div>
-
+                        <?php } ?>
 
                         <!-- Fin image Galery -->
 
@@ -141,22 +146,22 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
                     <!-- Partie Droite -->
 
-                    <div class="w-full max-w-lg mx-auto mt-5 md:ml-auto md:mt-0 md:w-1/2 lg:py-12" style="height: 790px;">
-                        <img class="h-full w-full content-center rounded-md object-cover max-w-lg mx-auto object-cover" src="<?= getGameImg($jeux['image']); ?>" alt="<?= $jeux['Titre'] ?>">
+                    <div class="max-w-lg mx-auto mt-5 md:ml-auto md:mt-0 md:w-1/2 lg:py-12 flex flex-col justify-center">
+                        <img class="w-full content-center rounded-md object-cover max-w-lg mx-auto object-cover" src="<?= getGameImg($jeux['image']); ?>" alt="<?= $jeux['Titre'] ?>">
                     </div>
                 </div>
 
             </div>
 </main>
 
-<div class="my-16 mx-48 px-48 content-center md:my-4 mx-24">
-    <h3 class="text-slate-50 text-2xl font-medium py-12"><?= $jeux['Description'] ?></h3>
+<div class="py-8 px-4 md:my-16 md:mx-48 md:px-48 content-center md:my-4 md:mx-24">
+    <h3 class="text-slate-50 text-2xl font-medium md:py-12"><?= $jeux['Description'] ?></h3>
 </div>
 
-<div class="bg-gray-700 w-full h-48 flex flex-row border-y-2 border-lime-500 py-2">
-    <div class="basis-1/6"></div>
-    <div class="basis-1/6 py-4 px-2 border-r border-lime-500  ">
-        <div class="text-slate-50">
+<div class="bg-gray-700 w-full  md:h-48 md:flex md:flex-row border-y-2 border-lime-500 py-2">
+    <div class="md:basis-1/6"></div>
+    <div class="basis-2/6 md:basis-1/6 py-4 px-2 md:border-r md:border-lime-500 lg:border-b-0 border-b border-lime-500 ">
+        <div class="text-slate-50 text-center md:text-left">
             <div class="py-2.5">
                 <?php
                 if (!isset($supports)) {
@@ -201,14 +206,14 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
     </div>
 
-    <div class="basis-2/6 border-r border-lime-500">
+    <div class="basis-1/6 md:basis-2/6 lg:border-b-0 md:border-r md:border-lime-500 border-b border-lime-500">
         <div class="py-12">
             <!-- Score  -->
             <?php
             if (empty($jeux['score'])) {
                 echo '<p class="text-slate-50 text-2xl font-bold text-center flex flex-wrap justify-around">Ce jeu n\'a pas encore reçu de note</p>';
             } else { ?>
-                <p class="text-center text-slate-50 text-5xl font-bold">Note: <?= $jeux['score'] ?><i class="fa-sharp fa-regular fa-star text-lime-500"></i></p>
+                <p class="text-center text-slate-50 text-2xl md:text-5xl font-bold">Note: <?= $jeux['score'] ?><i class="fa-sharp fa-regular fa-star text-lime-500"></i></p>
             <?php }
             ?>
         </div>
@@ -216,7 +221,7 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Date De Création -->
 
-    <div class="basis-2/6 mx-0.5 my-auto">
+    <div class="basis-1/6 md:basis-2/6 mx-0.5 my-auto text-center md:text-left">
         <div class="mx-2 py-2">
             <?php
             if (empty($jeux['date_creation'])) {

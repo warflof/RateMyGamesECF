@@ -71,7 +71,7 @@ if (isset($_POST['saveGame'])) {
 
 ?>
 
-<div class="container mx-auto px-32 py-6 pt-8 flex flex-col">
+<div class="container md:mx-auto md:px-32 py-6 pt-8 flex flex-col">
 
     <h1 class="text-5xl text-slate-50 text-center py-6">Ajouter un jeu</h1>
 
@@ -239,7 +239,7 @@ if (isset($_POST['saveGame'])) {
         </div>
         <hr class="my-8">
         <div class="mx-auto text-center">
-            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="saveGame">
+            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 my-2 rounded" name="saveGame">
         </div>
 
     </form>

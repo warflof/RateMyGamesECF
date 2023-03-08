@@ -62,6 +62,8 @@ filterForm.addEventListener('submit', function (submit) {
       productItem.className = 'rounded-lg hover:brightness-150 transition duration object-cover';
       productItem.src = games[i].image;
       productList.appendChild(productItem);
+     
+    
     }
   }
 }),

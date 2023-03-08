@@ -38,8 +38,8 @@ if (isset($_POST['addUser'])) {
     </div>
 <?php } ?>
 
-<div class="mx-32 px-32 space-y-4 md:space-y-6 sm:p-8">
-    <div class="mx-auto px-32">
+<div class="mx-8 py-4 md:mx-32 md:px-32 space-y-4 md:space-y-6 sm:p-8">
+    <div class="md:mx-auto md:px-32">
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Créer un compte
         </h1>

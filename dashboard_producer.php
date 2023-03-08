@@ -8,7 +8,7 @@ $totalCost[] = getGamesTotalCost($pdo);
 
 ?>
 
-<div class="container mx-auto px-auto pt-8 pb-16">
+<div class="container mx-auto px-auto pt-8 pb-16 overflow-x-auto">
 
     <table class="table-auto mx-auto py-8">
         <thead>

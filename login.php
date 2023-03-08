@@ -20,6 +20,7 @@ if (isset($_POST['loginUser'])) {
         $_SESSION['user'] = ['email' => $users['email']];
         $_SESSION['role'] = ['role' => $users['role_id']];
         $_SESSION['id'] = ['id' => $users['user_id']];
+        $_SESSION['pseudo'] = ['pseudo' => $users['pseudo']];
         $messages[] = 'Vous êtes connecté';
         ?>
         <script>
@@ -35,7 +36,7 @@ if (isset($_POST['loginUser'])) {
 
 
 ?>
-<div class="w-full mx-auto px-32 bg-gray rounded-lg shadow">
+<div class="w-full md:mx-auto md:px-32 bg-gray rounded-lg shadow">
     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Connexion à votre compte

@@ -323,18 +323,13 @@ function updateGameSupport(PDO $pdo, int $id, int $support)
 
 function updateGameStyle(PDO $pdo, int $id, int $style)
 {
-    if (empty($style)) {
-        $query = $pdo->prepare("INSERT INTO jeu_style (jeu_id, style_id) VALUES (:id, :style)
-                                ON DUPLICATE KEY UPDATE style_id = :style");
+    
+    $query = $pdo->prepare("UPDATE jeu_style SET style_id = :style WHERE jeu_id = :id");
+
         $query->bindParam(':style', $style, PDO::PARAM_INT);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         return $query->execute();
-    } else {
-        $query = $pdo->prepare("UPDATE jeu_style SET style_id = :style WHERE jeu_id = :id");
-        $query->bindParam(':style', $style, PDO::PARAM_INT);
-        $query->bindParam(':id', $id, PDO::PARAM_INT);
-        return $query->execute();
-    }
+   
 }
 
 function updateGameNombreJoueur(PDO $pdo, int $id, int $nbJoueur)

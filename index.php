@@ -6,6 +6,7 @@ require('templates/header.php');
 require('lib/jeuxData.php');
 
 $jeux = getGames($pdo, _HOME_GAMES_LIMIT);
+$news = getNews($pdo);
 
 // var_dump(intval($_SESSION['role']['role']));
 
@@ -14,24 +15,24 @@ $jeux = getGames($pdo, _HOME_GAMES_LIMIT);
 
 
 <!-- ########### FIRST SECTION ###########-->
-<div class=" mx-auto px-32 pt-8 pb-8">
+<div class=" mx-auto md:px-32 md:pt-8 md:pb-8">
   <div id="carouselFrontPage mt-16">
 
 
 
     <!-- FIRST SECTION -->
 
-    <div class="grid grid-cols-3 mb-16">
+    <div class="grid md:grid-cols-3 md:mb-16">
 
       <!-- CAROUSEL ACTU -->
-      <div class="col-span-2 mx-8">
+      <div class="col-span-2 mx-8 py-4">
         <h2 class="text-slate-50 text-5xl text-center mb-8">Actualités</h2>
 
         <div id="animation-carousel" class="relative" data-carousel="static">
           <!-- Carousel wrapper -->
           <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
 
-            <?php foreach ($jeux as $key => $jeu) {
+            <?php foreach ($news as $key => $new) { 
               include('templates/carouselJeux_partial.php');
             }
             ?>
@@ -66,11 +67,11 @@ $jeux = getGames($pdo, _HOME_GAMES_LIMIT);
 
     <hr class="border-lime-500">
 
-    <h2 class="text-5xl text-slate-50 text-center text mt-16 mb-16 underline decoration-lime-500">Découvrez nos jeux</h2>
+    <h2 class="text-5xl text-slate-50 text-center text pt-16 pb-16 px-4 underline decoration-lime-500">Nos jeux en cours de développement</h2>
 
 
     <!-- CAROUSEL -->
-    <div class="carousel px-16 pt-16 mb-8 mt-8">
+    <div class="carousel px-16 pt-16 pb-8 mt-8">
 
       <figure>
         <?php foreach ($jeux as $key => $jeu) {

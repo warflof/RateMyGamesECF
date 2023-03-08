@@ -39,6 +39,10 @@ $news = getNews($pdo);
                         <a href="Modification_article.php?id=<?= $new['id_actu'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
                             Modifier l'article
                         </a>
+                    
+                        <a href="lib/supprimer_article.php?id=<?= $new['id_actu'] ?>" class="bg-lime-500 rounded-md font-bold px-4 py-2 mx-6 border-2 border-slate-50 text-slate-50" type="button">
+                            Supprimer l'article
+                        </a>
                     </td>
                 </tr>
             <?php

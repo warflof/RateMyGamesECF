@@ -86,7 +86,7 @@ if (isset($_POST['modifyGame'])) {
 ?>
 
 
-<div class="container mx-auto px-32 py-6 pt-8 flex flex-col">
+<div class="container md:mx-auto md:px-32 py-6 pt-8 flex flex-col">
 
     <h1 class="text-5xl text-slate-50 text-center py-6">Modification de <br /><?= $news['Titre'] ?></h1>
 
@@ -145,7 +145,7 @@ if (isset($_POST['modifyGame'])) {
         <!-- Bouton d'envoi du formulaire -->
 
         <div class="mx-auto text-center">
-            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyGame" action="">
+            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 my-2 rounded" name="modifyGame" action="">
         </div>
 
     </form>

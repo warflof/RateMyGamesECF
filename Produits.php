@@ -22,188 +22,72 @@ $favoris = $favorisQuery->fetchAll(PDO::FETCH_ASSOC);
 
 
 <!-- ########### FIRST SECTION ###########-->
-<div class="mx-auto w-full">
-  <div class="flex flex-row w-full">
-
-    <!-- SideBar -->
-    <div class="left-0 top-0 basis-1/4 hidden" id="filterSideBar">
-      <aside class="w-128 left-0 h-full" aria-label="Sidebar">
-        <div class="px-2 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800 h-full">
-
-          <!-- Contenu Modale -->
-          <div class="px-6 py-2">
-            <div class="flex flex-row justify-between">
-
-              <h2 class="text-slate-50 text-2xl py-2 pb-6 basis-2/4">
-                Filtres
-              </h2>
-
-              <button class="close text-slate-50 text-2xl text-right basis-1/4" id="closeModalButton">&times;</button>
-
-            </div>
-
-            <!-- Formulaire de filtres -->
-
-            <form id="filter-form" >
-              <p class="text-slate-50">Nom: </p>
-              <input type="text" id="filter-input" placeholder="Filtrer les produits..." class="my-2" id="requestName">
-              <p class="text-slate-50">Statut: </p>
-              <select class="mb-4">
-                <option value="" disabled selected>Selectionnez un statut</option>
-                <?php
-                  foreach ($status as $statut) { 
-                    echo '<option value="' . $statut['id_jouable'] . '">' . $statut['Statut'] . '</option>';
-                  }
-                ?>
-              </select>
-              <p class="text-slate-50">Date de fin de création: </p>
-              <input type="date">
-              <div class="my-2">
-                <p class="text-slate-50">Style: </p>
-                <select>
-                <option value="" disabled selected>Selectionnez un style</option>
-
-                  <?php
-                  foreach ($styles as $style) {
-                    echo '<option value="' . $style['id_style'] . '">' . $style['style'] . '</option>';
-                  }
-                  ?>
-                </select>
-              </div>
+<div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
 
 
+  <!-- FIRST SECTION -->
+  <div class="w-full" id="mainSection">
 
-              <div class="py-2">
-                <button class="bg-slate-50 py-2 px-2 rounded-md mr-2" type="submit">Filtrer</button>
+    <h1 class="text-5xl text-slate-50 text-start text mt-6 mb-16 underline decoration-lime-500">
+      Nos jeux
+    </h1>
+    <!-- 1ST GROUP -->
 
-                <button class="bg-slate-50 py-2 px-2 rounded-md" type="reset">Réinitialiser</button>
-              </div>
-            </form>
-
-
-          </div>
-
-          <!-- Fin Contenu Modale -->
-        </div>
-      </aside>
-    </div>
-
-    <!-- Fin de la SideBar -->
+    <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
 
 
+      <?php
+      foreach ($jeux as $jeu) { ?>
+        <div class="group relative">
 
-    <!-- FIRST SECTION -->
-
-
-    <div class="mx-32 w-full" id="mainSection">
-
-      <h1 class="text-5xl text-slate-50 text-start text mt-16 mb-16 underline decoration-lime-500">
-        Nos jeux
-      </h1>
-
-      <button class="bg-lime-500 rounded-md font-bold px-4 py-2 border-2 border-slate-50 text-slate-50" id="FilterButton">
-        Filtres
-      </button>
-
-    
-
-    
-
-
-
-      <!-- FIRST GROUP -->
-      <div>
-        <div class="flex flex-row py-6 mt-8">
-          <div class="basis-3/4">
-            <h2 class="text-lime-500 text-2xl">Tout nos jeux</h2>
-          </div>
-          <div class="text-end place-content-end basis-1/4">
-            <button class="bg-lime-500 rounded-full mx-2 text-center" onclick="scrollOther()">
-              <span class="material-symbols-outlined py-2 px-2">
-                arrow_back
-              </span>
-            </button>
-            <button class="bg-lime-500 rounded-full" onclick="scrollRight()">
-              <span class="material-symbols-outlined py-2 px-2">
-                arrow_forward
-              </span>
-            </button>
-          </div>
-        </div> -
-
-         <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500" id="allGames">
-
-           <!-- ALL GAMES "../js/Produits.js"  -->
-
-        </div>
-     </div> 
-
-      <!-- 2ND GROUP -->
-
-      <div class="pb-8">
-        <div class="flex flex-row py-6 mt-8">
-          <div class="basis-3/4">
-            <h2 class="text-lime-500 text-2xl">Tout nos jeux</h2>
-          </div>
-          <div class="text-end place-content-end basis-1/4">
-            <button class="bg-lime-500 rounded-full mx-2 text-center" onclick="scrollOther()">
-              <span class="material-symbols-outlined py-2 px-2">
-                arrow_back
-              </span>
-            </button>
-            <button class="bg-lime-500 rounded-full" onclick="scrollRight()">
-              <span class="material-symbols-outlined py-2 px-2">
-                arrow_forward
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <div class="scroll-container scrollable bg-gradient-to-r from-black border-y-2 border-lime-500 flex" id="allGames">
-          <?php
-          foreach ($jeux as $jeu) { ?>
-            <div class="flex flex-col border-l-2 border-gray-800 items-center py-2">
-              <!-- <div class="w-32 h-12">
-        <p class="text-slate-50">
+          <p class="text-slate-50 text-2xl truncate py-8">
             <?= $jeu['Titre'] ?>
-        </p>
-    </div> -->
-              <a href="jeu.php?id=<?= $jeu['ID'] ?>" class="">
-                <img class="rounded-lg hover:brightness-150 transition duration object-content" src="<?= getGameImg($jeu['image']); ?>" />
-              </a>
-              <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) {
-                foreach ($favoris as $favori) {
-                  $favori = $favori['jeu_id'];
-                }
-                if (isset($favori) && $favori == $jeu['ID']) { ?>
-                  <div class="text-right py-6">
-                    <a href="favoris.php" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
-                      <i class="fas fa-heart text-slate-50"></i> <span class="text-slate-50">Vous aimez ce jeu</span>
-                    </a>
-                  </div>
-                <?php } else { ?>
-                  <div class="text-right py-6">
-                    <a href="ajouter_favoris.php?id=<?= $jeu['ID'] ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
-                      <i class="fa-regular fa-heart"></i> Ajouter aux favoris
-                    </a>
-                  </div>
+          </p>
 
-              <?php }
-              } ?>
-            </div>
-          <?php } ?>
+          <div class="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
+            <a href="jeu.php?id=<?= $jeu['ID'] ?>" class="">
+              <img class="h-full w-full object-cover object-center lg:h-full lg:w-full" src="<?= getGameImg($jeu['image']); ?>" />
+            </a>
+          </div>
+
+          <div class="mt-4 flex justify-between">
+
+
+          <?php if (isset($_SESSION['role']) && isset($_SESSION['role']['role']) && (intval($_SESSION['role']['role'])) == 1 || (intval($_SESSION['role']['role'])) == 2 || (intval($_SESSION['role']['role'])) == 5 || (intval($_SESSION['role']['role'])) == 6) {
+            foreach ($favoris as $favori) {
+              $favori = $favori['jeu_id'];
+            }
+
+
+            if (isset($favori) && $favori == $jeu['ID']) { ?>
+              <div>
+                <a href="favoris.php" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                  <i class="fas fa-heart text-slate-50"></i> <span class="text-slate-50">Vous aimez ce jeu</span>
+                </a>
+              </div>
+
+
+            <?php } else { ?>
+              <div class="text-right py-6">
+                <a href="ajouter_favoris.php?id=<?= $jeu['ID'] ?>&mail=<?= $users ?>" style="cursor: pointer;" class="text-slate-50 text-right border-2 border-lime-500 px-2 py-2 rounded-md my-2 mx-6">
+                  <i class="fa-regular fa-heart"></i> Ajouter aux favoris
+                </a>
+              </div>
+
+          <?php }
+          } ?>
         </div>
-
-      </div>
-
-      <!-- 3RD GROUP -->
-
-      <!-- FIN DU CONTENU -->
+        </div>
+      <?php } ?>
+    
     </div>
+
   </div>
+
+  <!-- 3RD GROUP -->
+
+  <!-- FIN DU CONTENU -->
 </div>
-
-
 
 <!-- FOOTER -->
 

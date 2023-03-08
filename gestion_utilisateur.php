@@ -29,9 +29,9 @@ if (isset($_POST['modifyRole'])) {
     <div class="flex flex-col">
         <?php
         foreach ($roles as $key => $role) { ?>
-            <div class="container mx-auto px-96">
+            <div class="container mx-auto md:px-96">
                 <div class="border-2 border-slate-50 flex flex-row">
-                    <div class="basis-1/2 py-2">
+                    <div class="basis-1/2 py-6 md:py-2">
                     <span class="text-slate-50 mx-2 basis-1/2">
                         <?= $role[0]['email'] ?>
                     </span>
@@ -62,8 +62,8 @@ if (isset($_POST['modifyRole'])) {
 
 
 
-    <div class="mx-auto text-center py-8">
-        <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyRole">
+    <div class="md:mx-auto text-center py-8">
+        <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 my-2 rounded" name="modifyRole">
     </div>
 </form>
 

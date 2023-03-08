@@ -98,7 +98,7 @@ if (isset($_POST['modifyGame'])) {
 ?>
 
 
-<div class="container mx-auto px-32 py-6 pt-8 flex flex-col">
+<div class="container md:mx-auto md:px-32 py-6 pt-8 flex flex-col">
 
     <h1 class="text-5xl text-slate-50 text-center py-6">Modification de <br /><?= $jeux['Titre'] ?></h1>
 
@@ -121,6 +121,7 @@ if (isset($_POST['modifyGame'])) {
         
         <div class="py-3 px-8 mx-8">
             <label for="style"><span class="text-slate-50">Style: </span></label>
+            
             <select class="w-full rounded" type="input" name="style" id="style">
                 <?php
                 if (empty($styles[0]['style'])) {
@@ -306,7 +307,7 @@ if (isset($_POST['modifyGame'])) {
                 <div class="mx-2">
                     <a href="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>"><img src="<?= _JEUX_IMG_PATH . $image['nom_image'] ?>" alt="image du jeu" class="mx-2 max-h-32 object-cover rounded-md"></a>
                     <div class="py-4">
-                        <a href="lib/suppression_imageAdditionnel_jeu.php?id=<?= $jeux['ID'] ?>&image=<?= $image['id'] ?>&nom_image=<?= $image['nom_image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Supprimer l'image</a>
+                        <a href="lib/suppression_imageAdditionnel_jeu.php?id=<?= $jeux['ID'] ?>&image=<?= $image['id'] ?>&nom_image=<?= $image['nom_image'] ?>" class="ml-4 py-2 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Supprimer</a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -337,7 +338,7 @@ if (isset($_POST['modifyGame'])) {
         <!-- Bouton d'envoi du formulaire -->
 
         <div class="mx-auto text-center py-8">
-            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 ml-16 my-2 rounded" name="modifyGame" action="Jeu.php?id=<?= $id ?>">
+            <input type="submit" value="Enregistrer" class="bg-slate-50 py-3 px-8 my-2 rounded" name="modifyGame" action="Jeu.php?id=<?= $id ?>">
         </div>
 
     </form>
